@@ -1,0 +1,22 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:80"
+
+  db:
+    image: mysql:8
+    container_name: database
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: etodo
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

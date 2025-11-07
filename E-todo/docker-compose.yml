@@ -1,22 +1,41 @@
 services:
   frontend:
-    build: ./frontend
+    
     container_name: frontend
     ports:
-      - "3000:80"
+      - "8080:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
 
   db:
-    image: mysql:8
-    container_name: database
+    image: mysql:8.0
+    container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: etodo
-      MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: my_password
+      MYSQL_DATABASE: ma_base
+      MYSQL_USER: test
+      MYSQL_PASSWORD: testpass
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d
+      - ./db_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
 
 volumes:
   db_data:
+    driver: local

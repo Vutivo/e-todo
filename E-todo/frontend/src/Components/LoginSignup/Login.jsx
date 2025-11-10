@@ -13,7 +13,7 @@ const LoginSingup = () => {
                 <div className="underline"></div>
             </div>
             
-            <div className="inuputs">
+            <div className="inputs">
                 <div className="inuput">
                     <img src={person_img} alt="My name" />
                     <input type="text"  />

@@ -13,16 +13,16 @@ services:
 
   db:
     image: mysql:8.0
-    container_name: db
+    container_name: etodo
     environment:
       MYSQL_ROOT_PASSWORD: my_password
-      MYSQL_DATABASE: ma_base
+      MYSQL_DATABASE: etodo
       MYSQL_USER: test
       MYSQL_PASSWORD: testpass
     ports:
       - "3306:3306"
     volumes:
-      - ./db:/docker-entrypoint-initdb.d
+      - ./datas:/docker-entrypoint-initdb.d
       - ./db_data:/var/lib/mysql
 
   phpmyadmin:
@@ -30,7 +30,8 @@ services:
     container_name: phpmyadmin
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: test
+      MYSQL_ROOT_PASSWORD: testpass
     ports:
       - "8000:80"
     depends_on:

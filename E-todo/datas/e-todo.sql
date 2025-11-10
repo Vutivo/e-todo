@@ -29,7 +29,7 @@ INSERT INTO Todo (title, description, created_at, due_time, status, user_id) VAL
 ('Poubelle', 'Sortir la poubelle avant 20h', '2025-11-07 08:30:00', '2025-11-07 20:00:00', 'todo', 1),
 ('Courses', 'Acheter du lait, du pain et des œufs', '2025-11-07 09:00:00', '2025-11-07 18:00:00', 'todo', 1),
 ('Voiture', 'Faire la vidange et vérifier les pneus', '2025-11-07 10:00:00', '2025-11-10 12:00:00', 'in progress', 2),
-('Factures', 'Payer la facture d’électricité', '2025-11-07 11:00:00', '2025-11-08 23:59:00', 'not started', 2),
+('Factures', 'Payer la facture électrique', '2025-11-07 11:00:00', '2025-11-08 23:59:00', 'not started', 2),
 ('Réunion', 'Préparer la réunion du lundi matin', '2025-11-07 12:00:00', '2025-11-10 09:00:00', 'todo', 3),
 ('Sport', 'Aller courir 5 km', '2025-11-07 13:00:00', '2025-11-07 19:00:00', 'done', 3),
 ('Lecture', 'Lire 20 pages du livre en cours', '2025-11-07 14:00:00', '2025-11-07 22:00:00', 'not started', 4),

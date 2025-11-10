@@ -1,11 +1,14 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import './App.css';
-import LoginSingup from './Components/LoginSingup/LoginSingup';
+import Login from './Pages/LoginSignup/Login';
 
 function App() {
   return (
-    <div>
-        <LoginSingup/>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/register" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 

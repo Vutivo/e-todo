@@ -32,7 +32,7 @@ const Home = () => {
                         Foundate by Sen-Sam & Kenan <br />
                         email : sen-sam.sam@epitech.eu <br />
                         email : kenan.lacrampe-cuyaubere-flieutete@epitech.eu <br />
-                        adress : 2 Pl. Louis Daubenton, 44100 Nantes
+                        address : 2 Pl. Louis Daubenton, 44100 Nantes
                     </p>
                 </div>
             </footer>

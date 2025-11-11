@@ -1,26 +1,15 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const port = 3000;
 
-// Page d'accueil
-app.get("/", (req, res) => {
-  res.send("Bienvenue sur la page d'accueil !");
-});
+const authRoutes = require('./routes/auth/auth');
 
-// Page d'inscription
-app.get("/register", (req, res) => {
-  res.send("Page d'inscription !");
-});
+app.use(cors())
 
-// Si quelqu’un tape /regi au lieu de /register → on le redirige
-app.get("/regi", (req, res) => {
-  res.redirect("/register"); // redirige automatiquement vers la bonne page
-});
+app.use(express.json());
 
-// Si aucune route ne correspond
-app.use((req, res) => {
-  res.status(404).send("Cette page n'existe pas !");
-});
+app.use('/auth', authRoutes);
 
 app.listen(port, () => {
   console.log(`Serveur lancé sur http://localhost:${port}`);

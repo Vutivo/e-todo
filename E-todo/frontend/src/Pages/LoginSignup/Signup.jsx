@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import './LoginSingup.css'
 import email_img from '../Assets/email.png'
 import person_img from '../Assets/person.png'
@@ -6,6 +7,10 @@ import password_img from '../Assets/password.png'
 
 const LoginSingup = () => {
 
+    const navigate = useNavigate();
+    const goToLogin = () => {
+        navigate("/login"); 
+    };
     return (
         <body className='body'>
             <div className='container'>
@@ -27,8 +32,8 @@ const LoginSingup = () => {
                         <input type="password" placeholder='password' />
                     </div>
                     <div className="submit-container">
-                        <div className="submit">Sing Up</div>
-                        <div className="submit">Login</div>
+                        <button className="submit">Sign Up</button>
+                        <button className="submit" onClick={goToLogin}>Login</button>
                     </div>
                 </div>
             </div>

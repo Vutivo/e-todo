@@ -1,0 +1,29 @@
+body{
+    background: linear-gradient(45deg, #2b212b, #44394a, #7a6c7c, #b2ada3);
+    background-attachment: fixed;
+}
+
+
+.box{
+    width: 20vw;
+    height: 10vh;
+    align-items: center;
+    justify-content: center;
+}
+.onBox.animate{
+    animation: ToRight 3s forwards;
+    
+}
+
+@keyframes ToRight {
+    0% {
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(15px)
+    }
+ 
+    100% {
+        transform: translate(0);
+    }
+}

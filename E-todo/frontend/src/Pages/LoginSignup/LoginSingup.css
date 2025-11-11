@@ -1,14 +1,15 @@
 .body {
     background: linear-gradient(130deg, #2A00B7 10%, #42006C 60%);
     background-attachment: fixed;
-
+    height: 100vh; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    margin: auto;
-    margin-top: 200px;
     background: #fff;
     padding-bottom: 30px;
     width: 600px;

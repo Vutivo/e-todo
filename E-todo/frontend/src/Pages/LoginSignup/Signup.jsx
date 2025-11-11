@@ -5,14 +5,14 @@ import person_img from '../Assets/person.png'
 import password_img from '../Assets/password.png'
 
 
-const LoginSingup = () => {
+const Singup = () => {
 
     const navigate = useNavigate();
     const goToLogin = () => {
         navigate("/login"); 
     };
     return (
-        <body className='body'>
+        <div className='body'>
             <div className='container'>
                 <div className="header">
                     <div className="text">Sign up</div>
@@ -22,6 +22,10 @@ const LoginSingup = () => {
                     <div className="input">
                         <img src={person_img} alt="My name" />
                         <input type="text" placeholder='Name' />
+                    </div>
+                    <div className="input">
+                        <img src={person_img} alt="My name" />
+                        <input type="text" placeholder='Firstname' />
                     </div>
                     <div className="input">
                         <img src={email_img} alt="My e-mail" />
@@ -37,11 +41,11 @@ const LoginSingup = () => {
                     </div>
                 </div>
             </div>
-        </body>
+        </div>
     )
 }
 
-export default LoginSingup
+export default Singup
 
 
 

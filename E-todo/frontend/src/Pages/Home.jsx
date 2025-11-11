@@ -13,10 +13,30 @@ const Home = () => {
     };
     
     return (
-        <div className="box">
-            <ButtonAnim ButtonRegister={goToRegister} ButtonLogin={goToLogin} />
+        <div>
+            <header>
+                <div>
+                    <ButtonAnim ButtonRegister={goToRegister} ButtonLogin={goToLogin} />
+                </div>
+            </header>
+            <main>
+                <div className="box">
+                    <div className="onBox">create your own todo-list</div>
+                    <div className="onBox">gain time</div>
+                    <div className="onBox">don't forget essencial things</div>
+                </div>
+            </main>
+            <footer>
+                <div>
+                    <p>
+                        Foundate by Sen-Sam & Kenan <br />
+                        email : sen-sam.sam@epitech.eu <br />
+                        email : kenan.lacrampe-cuyaubere-flieutete@epitech.eu <br />
+                        adress : 2 Pl. Louis Daubenton, 44100 Nantes
+                    </p>
+                </div>
+            </footer>
         </div>
-
     );
 };
 

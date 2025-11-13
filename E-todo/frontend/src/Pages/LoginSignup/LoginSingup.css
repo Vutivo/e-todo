@@ -1,18 +1,21 @@
 .body {
-    background: linear-gradient(#2A00B7, #42006C);
-    background-attachment:fixed ;
-
+    background: linear-gradient(130deg, #2A00B7 10%, #42006C 60%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    margin: auto;
-    margin-top: 200px;
     background: #fff;
-    padding-bottom: 30px;
+    padding-bottom: 20px;
     width: 600px;
     border-radius: 90px;
+    max-height: 95vh;
 }
 
 .header {
@@ -20,15 +23,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 9px;
-    margin-top: 20px;
+    gap: 6px;
+    margin-top: 15px;
 }
 
 .text {
     color: #3c009d;
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 600;
-
 }
 
 .underline {
@@ -40,11 +42,9 @@
 
 .inputs {
     display: flex;
-    margin-top: 55px;
+    margin-top: 30px;
     flex-direction: column;
-    gap: 25px;
-
-
+    gap: 18px;
 }
 
 .input {
@@ -53,13 +53,14 @@
     margin: auto;
     background: #eaeaea;
     width: 480px;
-    height: 80px;
+    height: 65px;
     border-radius: 5px;
-
 }
 
 .input img {
-    margin: 0px 30px;
+    margin: 0px 25px;
+    width: 24px;
+    height: 24px;
 }
 
 .input input {
@@ -68,12 +69,12 @@
     background: transparent;
     border: none;
     outline: none;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .submit-container {
     display: flex;
-    margin: 60px auto;
+    margin: 30px auto 10px;
     gap: 30px;
 }
 
@@ -82,10 +83,53 @@
     justify-content: center;
     align-items: center;
     width: 220px;
-    height: 59px;
+    height: 55px;
     border-radius: 50px;
     background: #4c00b4;
     color: #fff;
     font-size: 20px;
     cursor: pointer;
+    border: none;
+}
+
+.alert-message {
+    font-size: 14px;
+    color: red;
+    margin-left: 60px;
+    min-height: 20px;
+}
+
+@media (max-width: 767px) {
+    .container {
+        width: 400px;
+    }
+
+    .input {
+        width: 250px;
+        height: 45px;
+    }
+
+    .input input {
+        font-size: 14px;
+    }
+
+    .input img {
+        margin: 0px 15px;
+        width: 14px;
+        height: 14px;
+    }
+
+    .submit {
+        width: 120px;
+        height: 35px;
+        font-size: 14px;
+    }
+
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    .container {
+        width: 500px;
+    }
 }

@@ -1,27 +1,27 @@
-const express = require("express");
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db');
+const authRoutes = require('./routes/auth/auth');
+
 const app = express();
-const port = 3000;
+app.use(express.json());
+app.use(cors());
 
-// Page d'accueil
-app.get("/", (req, res) => {
-  res.send("Bienvenue sur la page d'accueil !");
-});
+async function startServer() {
+  try {
+    const db = await connectDB();
+    app.locals.db = db;
 
-// Page d'inscription
-app.get("/register", (req, res) => {
-  res.send("Page d'inscription !");
-});
+    console.log(' Connexion DB OK');
 
-// Si quelqu’un tape /regi au lieu de /register → on le redirige
-app.get("/regi", (req, res) => {
-  res.redirect("/register"); // redirige automatiquement vers la bonne page
-});
+    app.use('/', authRoutes);
 
-// Si aucune route ne correspond
-app.use((req, res) => {
-  res.status(404).send("Cette page n'existe pas !");
-});
+    app.listen(3000, () => {
+      console.log(' Server launched on http://localhost:3000');
+    });
 
-app.listen(port, () => {
-  console.log(`Serveur lancé sur http://localhost:${port}`);
-});
+  } catch (err) {
+    console.error('Error connexion DB:', err);
+  }
+}
+startServer();

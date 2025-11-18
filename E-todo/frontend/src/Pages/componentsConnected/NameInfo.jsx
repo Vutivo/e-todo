@@ -12,6 +12,7 @@ useEffect(() => {
             }
             
             const data = await res.json();
+            console.log(data)
             setUser(data);
         } catch (err) {
             console.error("Erreur :", err);
@@ -26,7 +27,7 @@ useEffect(() => {
         <div>
             {user ? (
                 <div>
-                    <p>Welcome {user.name} {user.firstname}</p>
+                    <p>Welcome {user.user.name} {user.user.firstname}</p>
                 </div>
             ) : (
                 <p>Load...</p>

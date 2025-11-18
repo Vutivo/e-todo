@@ -43,7 +43,7 @@ button.settings:hover img{
     background-color: rgba(0, 0, 0, 0.249);
     border-radius: 10px;
 }
-.container{
+.container1{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -57,11 +57,14 @@ button.settings:hover img{
 }
 
 .GotInfo{
-    display: none;
+    display: block;
+    /* min-height: 50vh; */
+    /* min-width: 15vw; */
+    background-color: red;
     
 }
 .NoInfo{
-    display: block;
+    display: none;
     height: 25vh;
     width: 25vw;
     cursor: pointer;

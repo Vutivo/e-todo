@@ -24,7 +24,7 @@ const Connected = () => {
                 </div>
             </header>
             <main>
-                <div className='container'>
+                <div className='container1'>
                     <div className='GotInfo'>not started</div>
                     <div className='GotInfo'>todo</div>
                     <div className='GotInfo'>in progress</div>

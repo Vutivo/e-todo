@@ -31,11 +31,12 @@ const Login = () => {
 
             if (!data.success) {
                 setError(data.message);
-                setEmail("");
                 setPassword("");
             } else {
                 setError("");
                 navigate("/Connected")
+                
+                localStorage.setItem("token",data.token)
 
             }
         } catch (error) {

@@ -43,7 +43,7 @@ button.settings:hover img{
     background-color: rgba(0, 0, 0, 0.249);
     border-radius: 10px;
 }
-.container{
+.container1{
     display: flex;
     flex-direction: row;
     justify-content: space-around;

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const { authenticateToken } = require("./middleware/auth.js");
 const authModule = require("./routes/auth/auth.js"); 
 const connectDB = require('./config/db');
+const userRoutes = require('./routes/auth/user');
 
 const app = express();
 app.use(bodyParser.json());  
@@ -15,6 +16,7 @@ async function startServer() {
     app.locals.db = db;
     
     app.use('/', authModule.router);
+    app.use('/', userRoutes);
     
     app.get("/todos/:id", authenticateToken, (req, res) => {
         res.json({ 

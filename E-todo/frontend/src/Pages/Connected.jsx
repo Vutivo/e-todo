@@ -19,7 +19,7 @@ const Connected = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const res = await fetch(`http://localhost:3000/Connected/${userId}`);
+                const res = await fetch(`http://localhost:3000/todos/${userId}`);
                 if (!res.ok) {
                     throw new Error(`Erreur HTTP : ${res.status}`);
                 }

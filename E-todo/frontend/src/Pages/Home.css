@@ -1,0 +1,55 @@
+body{
+    background: linear-gradient(45deg, #2b212b, #44394a, #7a6c7c, #b2ada3);
+    background-attachment: fixed;
+    color: white;
+}
+
+
+.boxParams{
+    display: flex;
+    gap: 10px;
+    height: 10vh;
+    justify-content: flex-end;
+}
+.box{
+    height: 40vh;
+    display: flex;
+    justify-content: space-around;
+}
+.onBox{
+    margin-top: 10vh;
+    display: flex;
+    background-color: #2b212b;
+    justify-content: center;
+    width: 30vw;
+    opacity: 0.7;
+    border-radius: 15px;
+}
+.Params.animate{
+    animation: ToRight 3s forwards;
+    
+}
+
+header{
+    margin-top: 10px;
+    height: 20vh;
+}
+main {
+    height: 60vh;
+}
+footer {
+    height: 15vh;
+    font-size: 0.8rem;
+}
+@keyframes ToRight {
+    0% {
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(15px)
+    }
+ 
+    100% {
+        transform: translate(0);
+    }
+}

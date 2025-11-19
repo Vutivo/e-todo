@@ -2,6 +2,7 @@
 # Node / React
 # ===============================
 node_modules/
+node_modules/.cache
 build/
 dist/
 npm-debug.log*

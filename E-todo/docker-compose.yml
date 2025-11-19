@@ -8,7 +8,6 @@ services:
       - "8080:3000"
     volumes:
       - ./frontend:/app
-      - frontend_node_modules:/app/node_modules
 
   backend:
     container_name: backend
@@ -19,7 +18,8 @@ services:
       - "3000:3000"
     volumes:
       - ./backend:/app
-      - backend_node_modules:/app/node_modules
+    env_file:
+      - .env
     environment:
       NODE_ENV: development
 
@@ -27,29 +27,34 @@ services:
     image: mysql:8.0
     container_name: etodo
     environment:
-      MYSQL_ROOT_PASSWORD: my_password
-      MYSQL_DATABASE: etodo
-      MYSQL_USER: test
-      MYSQL_PASSWORD: testpass
+      - MYSQL_DATABASE=${DB_HOST}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
     ports:
       - "3306:3306"
     volumes:
       - ./db:/docker-entrypoint-initdb.d
       - ./db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pexample"]
+      start_period: 5s
+      interval: 5s
+      timeout: 5s
+      retries: 55
+
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     environment:
       PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: rootpassword
     ports:
       - "8000:80"
     depends_on:
       - db
 
+
 volumes:
   frontend_node_modules:  
-  backend_node_modules: 
   db_data:
     driver: local

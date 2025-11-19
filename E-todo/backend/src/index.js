@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth/auth');
+const userRoutes = require('./routes/auth/user');
 
 const app = express();
 app.use(express.json());
@@ -15,6 +16,7 @@ async function startServer() {
     console.log(' Connexion DB OK');
 
     app.use('/', authRoutes);
+    app.use('/', userRoutes);
 
     app.listen(3000, () => {
       console.log(' Server launched on http://localhost:3000');

@@ -35,7 +35,9 @@ const Login = () => {
                 setPassword("");
             } else {
                 setError("");
-                navigate("/Connected")
+                
+                const userId = data.user.id;
+                navigate(`/todos/${userId}`)
 
             }
         } catch (error) {

@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken'); 
 
+
+const SECRET = process.env.SECRET
 
 router.post('/login', async (req, res) => {
   const db = req.app.locals.db;
   const { email, password } = req.body;
-
 
   if (!email || !password) {
     return res.status(400).json({ success: false, message: 'Need Email and password' });
@@ -18,15 +20,18 @@ router.post('/login', async (req, res) => {
     );
 
     if (rows.length === 0) {
-      return res.status(401).json({ success: false, message: 'Unknow identifier' });
+      return res.status(401).json({ success: false, message: 'Unknown identifier' });
     }
 
-    res.json({ success: true, message: 'Login OK', user: rows[0] });
+    const userId = rows[0].id;
+    const token = jwt.sign({ id: userId }, SECRET, { expiresIn: '3h' });
 
+    res.json({ success: true, token });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Error server', error: err });
+    res.status(500).json({ success: false, message: 'Server error', error: err });
   }
 });
+
 
 router.post('/register', async (req, res) => {
 
@@ -52,8 +57,8 @@ router.post('/register', async (req, res) => {
       [email, password, name, firstname]
 
     );
-      return res.status(200).json({ success: true, message: 'register ok' });
-    
+    res.status(200).json({ success: true, message: 'register ok' });
+
 
 
   }
@@ -64,4 +69,6 @@ router.post('/register', async (req, res) => {
 });
 
 
-module.exports = router;
+module.exports = {
+  router
+};

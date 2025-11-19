@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import './LoginSingup.css'
 import email_img from '../Assets/email.png'
@@ -78,6 +78,7 @@ const Singup = () => {
                     <div className="submit-container">
                         <button className="submit" onClick={handleClick}>Sign Up</button>
                         <button className="submit" onClick={goToLogin}>Login</button>
+                        <button className="test" onClick={test}>Testconnect</button>
                     </div>
                 </div>
             </div>

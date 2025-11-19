@@ -31,13 +31,13 @@ const Login = () => {
 
             if (!data.success) {
                 setError(data.message);
-                setEmail("");
                 setPassword("");
             } else {
                 setError("");
+              const userId = data.user.id; 
+                navigate("/todos/${userId}");
                 
-                const userId = data.user.id;
-                navigate(`/todos/${userId}`)
+                localStorage.setItem("token",data.token)
 
             }
         } catch (error) {

@@ -8,6 +8,7 @@ export default function Display() {
 
     const Home = () => {
         navigate("/");
+        localStorage.removeItem("token");
     }
 
 

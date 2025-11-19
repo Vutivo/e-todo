@@ -9,7 +9,7 @@ const Connected = () => {
     const { userId } = useParams();                         // Récupération de l'ID dans l'URL
     const [open, setOpen] = useState(false);                // Pour settings qui s'ouvre
     const [user, setUser] = useState(null);                 // Pour changement d'utilisateur
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState([]);                 // Récupération des status, titres et descriptions
 
     
     const Open = () => {
@@ -40,7 +40,7 @@ const Connected = () => {
     const renderTasks = (status) => {
         const task = tasks.filter(task => task.status === status);
         return task.length ? (
-            task.map((task, index) => <p key={index}>{task.description}</p>)
+            task.map((task, index) => <p key={index}>{task.title}</p>)
         ) : (
             <p>No tasks yet</p>
         );
@@ -76,21 +76,25 @@ const Connected = () => {
                         <div>
                             {renderTasks('not started')}
                         </div>
+                        <button>+</button>
                     </div>
                     <div className='GotInfo'><div>todo </div><br />
                         <div>
                             {renderTasks('todo')}
                         </div>
+                        <button>+</button>
                     </div>
                     <div className='GotInfo'> <div>in progress</div><br />
                         <div>
                             {renderTasks('in progress')}
                         </div>
+                        <button>+</button>
                     </div>
                     <div className='GotInfo'> <div>done</div><br />
                         <div>
                             {renderTasks('done')}
                         </div>
+                        <button>+</button>
                     </div>
 
                     <button className='NoInfo'>Create your 1st to do list</button>

@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/Connected" element={<Connected />} />
+        <Route path="/todos/:userId" element={<Connected />} />
       </Routes>
     </Router>
   );

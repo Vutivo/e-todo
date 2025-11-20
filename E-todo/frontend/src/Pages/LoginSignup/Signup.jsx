@@ -34,11 +34,12 @@ const Singup = () => {
 
         const data = await response.json();
         
+        
         if(!data.success){
             setError(data.message);
         } else {
             setError("");
-            navigate("/Connected")
+            navigate(`/todos/`)
         }
     } catch (error) {
         console.error('Erreur:', error);
@@ -78,7 +79,6 @@ const Singup = () => {
                     <div className="submit-container">
                         <button className="submit" onClick={handleClick}>Sign Up</button>
                         <button className="submit" onClick={goToLogin}>Login</button>
-                        <button className="test" onClick={test}>Testconnect</button>
                     </div>
                 </div>
             </div>

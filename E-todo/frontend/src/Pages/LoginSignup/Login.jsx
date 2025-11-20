@@ -28,14 +28,15 @@ const Login = () => {
                 return;
             }
             const data = await response.json();
+            console.log(data);
+            
 
             if (!data.success) {
                 setError(data.message);
                 setPassword("");
             } else {
                 setError("");
-              const userId = data.user.id; 
-                navigate("/todos/${userId}");
+                navigate(`/todos`);
                 
                 localStorage.setItem("token",data.token)
 

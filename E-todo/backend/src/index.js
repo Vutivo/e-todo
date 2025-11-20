@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const { authenticateToken } = require("./middleware/auth.js");
 const authModule = require("./routes/auth/auth.js"); 
 const connectDB = require('./config/db');
-const userRoutes = require('./routes/auth/user');
+const userRoutes = require('./routes/user.js');
 
 const app = express();
 app.use(bodyParser.json());  

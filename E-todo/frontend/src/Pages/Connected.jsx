@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import './Connected.css';
+import './styles/Connected.css';
 import imgParams from './Assets/imgParametres.png';
 import Display from './componentsConnected/Display';
 
@@ -73,7 +73,7 @@ const Connected = () => {
 
         fetchUser();
     }, []);
-    
+
 const renderTasks = (status) => {
     const filtered = tasks.filter(task => task.status === status);
     return filtered.length ? (
@@ -118,7 +118,6 @@ return (
                         <input onKeyDown={(e) => handleKeyDown(e, status)} type="text" placeholder="Add task" />
                     </div>
                 ))}
-                <button className='NoInfo'>Create your 1st to do list</button>
             </div>
         </main>
 

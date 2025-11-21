@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import '../Connected.css';
+import '../styles/Connected.css';
 
 
 export default function Display() {

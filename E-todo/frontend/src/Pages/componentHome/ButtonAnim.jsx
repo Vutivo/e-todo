@@ -1,4 +1,4 @@
-import "../Home.css";
+import "../styles/Home.css";
 import { useState } from "react";
 export default function ButtonAnim({ ButtonRegister, ButtonLogin}){
 

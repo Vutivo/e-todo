@@ -1,0 +1,39 @@
+.main {
+  display: flex;
+  justify-content: center;   
+  align-items: center;        
+  height: 80vh;              
+}
+.table{
+    min-width: 80vw;
+    min-height: 50vh;
+    margin: auto;
+    text-align: center;
+    border: solid black;
+}
+.td{
+    --angle: 45deg; 
+    background: linear-gradient(var(--angle), oklab(15.9% 0.016 -0.048), oklab(22.6% 0.003 -0.043), oklab(28.5% -0.012 -0.058), oklab(34.4% -0.018 -0.065), oklab(46.7% -0.019 -0.064));
+}
+.button{
+    min-height: 2vh;
+    padding: 5px;
+    cursor: pointer;
+    --angle: 45deg; 
+    background: linear-gradient(var(--angle), oklab(66% 0.187 0.133), oklab(75.2% 0.015 0.146), oklab(88.7% -0.017 0.181));
+    border: none;
+    border-radius: 20px;
+    animation: ScaleUser 7s infinite;
+}
+
+@keyframes ScaleUser {
+    0%{
+        transform : scale(1);
+    }
+    50%{
+        transform : scale(0.90);
+    }
+    100%{
+        transform : scale(1);
+    }
+}

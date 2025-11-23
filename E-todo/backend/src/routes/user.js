@@ -87,6 +87,51 @@ router.delete("/user", authenticateToken, async (req, res) => {
     }
 });
 
+router.put("/user", authenticateToken, async (req, res) => {
+    const userId = req.user.id;
+    const { name, firstname, email, password } = req.body; 
+    // (ligne au dessus) qu'on a une fois que l'utilisateur a mis le mot de passe pour confirmer
+    const db = req.app.locals.db;
+
+    try {
+        const [userRows] = await db.query("SELECT password FROM `User` WHERE id = ?", [userId]);
+
+        if (userRows.length === 0) {
+            return res.status(404).json({ success: false, message: "Utilisateur introuvable" });
+        }
+
+        const user = userRows[0];
+
+        if (user.password !== password) { 
+            return res.status(403).json({ success: false, message: "Mot de passe incorrect" });
+        }
+
+
+        //si jamais l'email est déjà utilisé
+        const [emailCheck] = await db.query(
+            "SELECT id FROM `User` WHERE email = ? AND id != ?",
+            [email, userId]
+        );
+
+        if (emailCheck.length > 0) {
+            return res.status(400).json({ success: false, message: "Email déjà utilisé" });
+        }
+
+
+        // Modifications
+        await db.query("UPDATE `User` SET name=?, firstname=?, email=? WHERE id=?", [name, firstname, email, userId]);
+
+        res.json({
+            success: true,
+            message: "mis a jour"
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: "Erreur serveur" });
+    }
+});
+
 
 
 module.exports = router;

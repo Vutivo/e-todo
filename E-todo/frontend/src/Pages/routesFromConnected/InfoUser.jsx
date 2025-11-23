@@ -4,10 +4,19 @@ import '../styles/InfoUser.css';
 
 export default function InfoUser() {
     const [user, setUser] = useState(null);
-    const navigate = useNavigate(); // On récupère la fonction de navigation
+    const [isEditing, setIsEditing] = useState(false);
+    const [formData, setFormData] = useState({
+        name: "",
+        firstname: "",
+        email: "",
+    });
+
+    const navigate = useNavigate();
+
     const backToConnected = () => {
         navigate(`/user/todos`);
-    }
+    };
+
     useEffect(() => {
         const fetchInfo = async () => {
             try {
@@ -19,8 +28,14 @@ export default function InfoUser() {
 
                 if (!res.ok) throw new Error(`HTTP Error : ${res.status}`);
                 const data = await res.json();
-                console.log("Données reçues :", data);
-                setUser(data.user); // change pour récupérer l'id
+
+                setUser(data.user);
+                setFormData({
+                    name: data.user.name,
+                    firstname: data.user.firstname,
+                    email: data.user.email,
+                });
+
             } catch (err) {
                 console.error(err);
                 navigate("/login");
@@ -31,9 +46,8 @@ export default function InfoUser() {
     }, [navigate]);
 
     const deleteAccount = async () => {
-        // Demande le mot de passe qu'on vérifie dans le back
         const password = window.prompt("Enter your password to valid your deletion");
-        if (!password) return; // si annuler ou rien
+        if (!password) return;
 
         try {
             const res = await fetch("http://localhost:3000/user", {
@@ -52,25 +66,74 @@ export default function InfoUser() {
                 localStorage.removeItem("token");
                 navigate("/login");
             } else {
-                alert(data.message || "Incorrect password, account not deleted.");
+                alert(data.message || "Incorrect password.");
             }
         } catch (err) {
             console.error(err);
             alert("Server error, please try again.");
         }
     };
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSave = async () => {
+        const password = window.prompt("Enter your password to valid your modifications");
+        if (!password) return;
+
+        try {
+            const res = await fetch("http://localhost:3000/user", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ ...formData, password }),
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                alert("Account updated");
+
+                setUser({ ...user, ...formData });
+                setIsEditing(false);
+            } else {
+                alert(data.message || "Update failed");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Server error");
+        }
+    };
+
+    const handleCancel = () => {
+        setFormData({
+            name: user.name,
+            firstname: user.firstname,
+            email: user.email,
+        });
+        setIsEditing(false);
+    };
+
+    if (!user) return <p>Loading...</p>;
+
     return (
         <>
             <header>
                 <div className="flex">
                     <div>
-                        <button onClick={backToConnected} className="button">come back to your todo list</button>
+                        <button onClick={backToConnected} className="button">
+                            come back to your todo list
+                        </button>
                     </div>
                     <div>
-                    Personal userboard of {user ? user.firstname : "loading..."}
+                        Personal userboard of {user ? user.firstname : "loading..."}
                     </div>
                 </div>
             </header>
+
             <main className="main">
                 <table className="table">
                     <thead>
@@ -83,17 +146,67 @@ export default function InfoUser() {
                     </thead>
                     <tbody>
                         <tr>
-                            <td className="td">{user?.name}</td>
-                            <td className="td">{user?.firstname}</td>
-                            <td className="td">{user?.email}</td>
-                            <td className="td">{user?.created_at.split("T")[0]}</td>
+                            <td className="td">
+                                {isEditing ? (
+                                    <input
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                    />
+                                ) : (
+                                    user.name
+                                )}
+                            </td>
+
+                            <td className="td">
+                                {isEditing ? (
+                                    <input
+                                        name="firstname"
+                                        value={formData.firstname}
+                                        onChange={handleChange}
+                                    />
+                                ) : (
+                                    user.firstname
+                                )}
+                            </td>
+
+                            <td className="td">
+                                {isEditing ? (
+                                    <input
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                    />
+                                ) : (
+                                    user.email
+                                )}
+                            </td>
+
+                            <td className="td">{user.created_at.split("T")[0]}</td>
                         </tr>
                     </tbody>
                 </table>
             </main>
+
             <div className="flex">
-            <div><button className="button">update informations</button></div>
-            <div><button onClick={deleteAccount} className="button">delete your account</button></div>
+                {!isEditing ? (
+                    <button onClick={() => setIsEditing(true)} className="button">
+                        update informations
+                    </button>
+                ) : (
+                    <>
+                        <button onClick={handleSave} className="button">
+                            save
+                        </button>
+                        <button onClick={handleCancel} className="button">
+                            cancel
+                        </button>
+                    </>
+                )}
+
+                <button onClick={deleteAccount} className="button">
+                    delete your account
+                </button>
             </div>
         </>
     );

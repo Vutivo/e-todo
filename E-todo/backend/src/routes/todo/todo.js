@@ -34,34 +34,32 @@ router.get("/user/todos", authenticateToken, async (req, res) => {
 
 router.post("/todos", authenticateToken, async (req, res) => {
     const db = req.app.locals.db;
-    const { status, value } = req.body;
     const userId = req.user.id;
-    const description = "This is a best description"
+    const { status, title, description, due_time } = req.body;
 
     try {
-        const [row] = await db.query(
-            "INSERT into `Todo`(title,description,status,user_id) VALUES(?, ?, ? ,?) ",
-            [value, description, status, userId]
-        )
+        const [insertResult] = await db.query(
+            "INSERT INTO `Todo` (title, description, status, due_time, user_id) VALUES (?, ?, ?, ?, ?)",
+            [title, description, status, due_time, userId]
+        );
 
-        const newTodo = {
+        const [rows] = await db.query(
+            "SELECT * FROM `Todo` WHERE id = ?",
+            [insertResult.insertId]
+        );
+
+
+        res.status(200).json({
             tokensuccess: true,
-            id: row.insertId,
-            title: value,
-            description,
-            status,
-            user_id: userId
-        };
-
-        res.status(200).json(newTodo);
+            ...rows[0]
+        });
 
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Erreur serveur" });
-
     }
-
 });
+
 
 router.get("/todos/:id", authenticateToken, async (req, res) => {
     const db = req.app.locals.db;
@@ -110,6 +108,27 @@ router.delete("/todos/:id", authenticateToken, async (req, res) => {
         res.status(200).json({ message: "Todo deleted successfully", tokensuccess: true });
 
     }catch(err){
+        console.error(err);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+
+
+});
+
+router.put("/todos/:id", authenticateToken,  async (req, res) => {
+    const db = req.app.locals.db;
+    const todoId = req.params.id;
+    const { title, description, status, due_time } = req.body;
+
+    try {
+        await db.query(
+            "UPDATE `Todo` SET title = ?, description = ?, status = ?, due_time = ? WHERE id = ?",
+            [title, description, status, due_time, todoId]
+        );
+
+        res.status(200).json({ message: "Todo updated successfully", tokensuccess: true });
+
+    } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Erreur serveur" });
     }

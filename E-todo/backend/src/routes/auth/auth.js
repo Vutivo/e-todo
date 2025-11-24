@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken'); 
+const jwt = require('jsonwebtoken');
 
 
 const SECRET = process.env.SECRET
@@ -26,7 +26,7 @@ router.post('/login', async (req, res) => {
     const userId = rows[0].id;
     const token = jwt.sign({ id: userId }, SECRET, { expiresIn: '3h' });
 
-    res.json({ success: true,id: userId, token });
+    res.status(200).json({ success: true, id: userId, token });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Server error', error: err });
   }
@@ -47,22 +47,23 @@ router.post('/register', async (req, res) => {
       'SELECT id FROM User WHERE email = ?',
       [email]
     );
-    
+
 
     if (row.length > 0) {
       return res.status(401).json({ success: false, message: 'Email already used' });
     }
 
-    
+
 
     const [rows] = await db.query(
       'INSERT INTO `User` (email, password, name, firstname) VALUES (?, ?, ?, ?)',
       [email, password, name, firstname]
 
     );
-    const id = rows.insertId;
+    const userId = rows[0].id;
+    const token = jwt.sign({ id: userId }, SECRET, { expiresIn: '3h' });
 
-    res.status(200).json({ success: true, id: id });
+    res.status(200).json({ success: true, id: id, token });
 
 
 

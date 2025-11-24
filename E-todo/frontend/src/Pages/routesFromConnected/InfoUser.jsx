@@ -80,7 +80,12 @@ export default function InfoUser() {
 
     const handleSave = async () => {
         const password = window.prompt("Enter your password to valid your modifications");
+        const email = formData.email;
         if (!password) return;
+        if (!(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))){
+            alert('please enter valid email')
+            return;
+        }
 
         try {
             const res = await fetch("http://localhost:3000/user", {
@@ -173,6 +178,7 @@ export default function InfoUser() {
                             <td className="td">
                                 {isEditing ? (
                                     <input
+                                        type="email"
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}

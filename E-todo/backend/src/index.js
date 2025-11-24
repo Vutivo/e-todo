@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require('body-parser');
-const { authenticateToken } = require("./middleware/auth.js");
+
 const authModule = require("./routes/auth/auth.js"); 
 const connectDB = require('./config/db');
-const userRoutes = require('./routes/user.js');
+const todoRoutes = require('./routes/todo/todo.js');
 
 const app = express();
 app.use(bodyParser.json());  
@@ -16,15 +16,8 @@ async function startServer() {
     app.locals.db = db;
     
     app.use('/', authModule.router);
-    app.use('/', userRoutes);
-    
-    app.get("/todos/:id", authenticateToken, (req, res) => {
-        res.json({ 
-            success: true, 
-            message: "Route protégée OK", 
-            userId: req.user.id 
-        });
-    });
+    app.use('/', todoRoutes);
+
     
     app.listen(3000, () => {
       console.log(' Server launched');

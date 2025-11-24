@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { authenticateToken } = require("../middleware/auth");
+const bcrypt = require("bcryptjs");
+
 
 
 router.get("/user/todos", authenticateToken, async (req, res) => {
@@ -71,8 +73,8 @@ router.delete("/user", authenticateToken, async (req, res) => {
         }
 
         const user = userRows[0];
-
-        if (user.password !== password) { 
+        const samePass = await bcrypt.compare(password, user.password);
+        if (!samePass) {
             return res.status(403).json({ success: false, message: "Mot de passe incorrect" });
         }
 
@@ -101,8 +103,8 @@ router.put("/user", authenticateToken, async (req, res) => {
         }
 
         const user = userRows[0];
-
-        if (user.password !== password) { 
+        const samePass = await bcrypt.compare(password, user.password);
+        if (!samePass) {
             return res.status(403).json({ success: false, message: "Mot de passe incorrect" });
         }
 

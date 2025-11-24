@@ -63,31 +63,59 @@ router.post("/todos", authenticateToken, async (req, res) => {
 
 });
 
-router.get("/todos/:id",authenticateToken,async(req,res)=>{
-        const db = req.app.locals.db;
-        const todoId = req.params.id;
-        try{
-            const [row]=await db.query(
-                "SELECT title, description, status FROM `Todo` Where id = ?",
-                [todoId]
-            )
-             const todo = row[0];
-        const title = todo.title;
+router.get("/todos/:id", authenticateToken, async (req, res) => {
+    const db = req.app.locals.db;
+    const todoId = req.params.id;
+
+    try {
+        const [row] = await db.query(
+            "SELECT title, description, due_time, created_at, status FROM `Todo` WHERE id = ?",
+            [todoId]
+        );
+
+        const todo = row[0];
         const description = todo.description;
-        const status = todo.status;
-            res.status(200).json({
-                tokensuccess: true,
-                title: title,
-                description: description,
-                status:status
-        })
-        }catch (err) {
+
+        if (!description) {
+            description = "This is a best description"
+        }
+
+        res.status(200).json({
+            tokensuccess: true,
+            title: todo.title,
+            description: description,
+            status: todo.status,
+            created_at: todo.created_at,
+            due_time: todo.due_time
+        });
+
+    } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Erreur serveur" });
+    }
+});
 
+router.delete("/todos/:id", authenticateToken, async (req, res) => {
+
+    const db = req.app.locals.db;
+    const todoId = req.params.id;
+
+
+    try{
+        const [row] = await db.query(
+            "DELETE FROM `Todo` WHERE id = ?",
+            [todoId]
+        );
+
+        res.status(200).json({ message: "Todo deleted successfully", tokensuccess: true });
+
+    }catch(err){
+        console.error(err);
+        res.status(500).json({ message: "Erreur serveur" });
     }
 
 
 });
 
 module.exports = router;
+

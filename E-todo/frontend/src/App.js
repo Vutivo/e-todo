@@ -4,6 +4,7 @@ import Signup from './Pages/LoginSignup/Signup';
 import Login from './Pages/LoginSignup/Login';
 import Home from './Pages/Home'
 import Connected from './Pages/Connected'
+import TodoInfo from './Pages/TodoInfo'
 
 function App() {
   return (
@@ -13,8 +14,7 @@ function App() {
         <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/user/todos" element={<Connected />} />
-        <Route path="/user" element={<Connected />} />
-
+        <Route path="/todos/:id" element={<TodoInfo />} />
        
       </Routes>
     </Router>

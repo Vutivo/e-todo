@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import './Connected.css';
 import imgParams from './Assets/imgParametres.png';
 import Display from './componentsConnected/Display';
 
 const Connected = () => {
+    const navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const [user, setUser] = useState(null);
     const [tasks, setTasks] = useState([]);
 
     const Open = () => setOpen(!open);
+    const handleClick = async (id) => {
+       navigate(`/todos/${id}`)
+
+
+    }
     const handleKeyDown = async (event, status) => {
         const value = event.target.value
         if (event.key == "Enter") {
@@ -17,13 +23,14 @@ const Connected = () => {
             try {
                 const res = await fetch("http://localhost:3000/todos", {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json',
-                                "Authorization": `Bearer ${localStorage.getItem("token")}`
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${localStorage.getItem("token")}`
                     },
-                    body: JSON.stringify({ status,value })
+                    body: JSON.stringify({ status, value })
 
 
-                     
+
 
                 });
                 if (!res.ok) throw new Error(`Erreur HTTP : ${res.status}`);
@@ -50,8 +57,12 @@ const Connected = () => {
                 const data = await res.json();
                 setUser(data.user);
                 setTasks(data.tasks);
+                console.log("acces " + data.tokensuccess)
+
             } catch (err) {
                 console.error("Erreur :", err);
+                navigate("/login");
+
             }
         };
         fetchUser();
@@ -60,7 +71,11 @@ const Connected = () => {
     const renderTasks = (status) => {
         const filtered = tasks.filter(task => task.status === status);
         return filtered.length ? (
-            filtered.map((task, i) => <p key={i}>{task.title}</p>)
+            filtered.map((task, i) =>
+                <div>
+                    <p key={i}>{task.title}</p>
+                    <button onClick={() => handleClick(task.id)}>view</button>
+                </div>)
         ) : <p>No tasks yet</p>;
     };
 

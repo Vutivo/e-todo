@@ -5,7 +5,7 @@ const { authenticateToken } = require("../../middleware/auth.js");
 
 router.get("/user/todos", authenticateToken, async (req, res) => {
     const db = req.app.locals.db;
-    const { id } = req.user;  // id récupéré depuis JWT
+    const { id } = req.user;  
 
     try {
         // Récupération de l'utilisateur
@@ -17,11 +17,14 @@ router.get("/user/todos", authenticateToken, async (req, res) => {
 
         // Récupération des todos
         const [tasks] = await db.query(
-            "SELECT status, description, title FROM Todo WHERE user_id = ?",
+            "SELECT status, description, title, id FROM Todo WHERE user_id = ?",
             [id]
         );
 
-        res.json({ user, tasks });
+        res.json({ user,
+             tasks,
+             id: user.id,
+            tokensuccess: true });
 
     } catch (err) {
         console.error(err);
@@ -30,32 +33,60 @@ router.get("/user/todos", authenticateToken, async (req, res) => {
 });
 
 router.post("/todos", authenticateToken, async (req, res) => {
-const db = req.app.locals.db;
-const { status,value } = req.body;
-const userId = req.user.id; 
-const description = "This is a best description"
+    const db = req.app.locals.db;
+    const { status, value } = req.body;
+    const userId = req.user.id;
+    const description = "This is a best description"
 
     try {
         const [row] = await db.query(
             "INSERT into `Todo`(title,description,status,user_id) VALUES(?, ?, ? ,?) ",
-            [value,description,status,userId]
+            [value, description, status, userId]
         )
 
-       const newTodo = {
-    id: row.insertId,
-    title: value,
-    description,
-    status,
-    user_id: userId
-};
+        const newTodo = {
+            tokensuccess: true,
+            id: row.insertId,
+            title: value,
+            description,
+            status,
+            user_id: userId
+        };
 
-res.status(200).json(newTodo);
+        res.status(200).json(newTodo);
 
     } catch (err) {
         console.error(err);
         res.status(500).json({ message: "Erreur serveur" });
 
     }
+
+});
+
+router.get("/todos/:id",authenticateToken,async(req,res)=>{
+        const db = req.app.locals.db;
+        const todoId = req.params.id;
+        try{
+            const [row]=await db.query(
+                "SELECT title, description, status FROM `Todo` Where id = ?",
+                [todoId]
+            )
+             const todo = row[0];
+        const title = todo.title;
+        const description = todo.description;
+        const status = todo.status;
+            res.status(200).json({
+                tokensuccess: true,
+                title: title,
+                description: description,
+                status:status
+        })
+        }catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Erreur serveur" });
+
+    }
+
 
 });
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken'); 
-
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 const SECRET = process.env.SECRET
 
@@ -15,18 +15,24 @@ router.post('/login', async (req, res) => {
 
   try {
     const [rows] = await db.query(
-      'SELECT id FROM User WHERE email = ? AND password = ?',
-      [email, password]
+      'SELECT id, password FROM User WHERE email = ?',
+      [email]
     );
 
     if (rows.length === 0) {
       return res.status(401).json({ success: false, message: 'Unknown identifier' });
     }
+    const user = rows[0];
+    const userId = user.id;
 
-    const userId = rows[0].id;
+    const isOkPassword = await bcrypt.compare(password, user.password);
+    
+    if (!isOkPassword) {
+      return res.status(401).json({ success: false, message: "Invalid password" });
+    }
+    
     const token = jwt.sign({ id: userId }, SECRET, { expiresIn: '3h' });
-
-    res.json({ success: true,id: userId, token });
+    res.json({ success: true, id: userId, token });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Server error', error: err });
   }
@@ -47,17 +53,17 @@ router.post('/register', async (req, res) => {
       'SELECT id FROM User WHERE email = ?',
       [email]
     );
-    
+
 
     if (row.length > 0) {
       return res.status(401).json({ success: false, message: 'Email already used' });
     }
 
-    
 
+    const hashPassword = await bcrypt.hash(password, 10);
     const [rows] = await db.query(
       'INSERT INTO `User` (email, password, name, firstname) VALUES (?, ?, ?, ?)',
-      [email, password, name, firstname]
+      [email, hashPassword, name, firstname]
 
     );
     const id = rows.insertId;
@@ -74,6 +80,4 @@ router.post('/register', async (req, res) => {
 });
 
 
-module.exports = {
-  router
-};
+module.exports = { router };

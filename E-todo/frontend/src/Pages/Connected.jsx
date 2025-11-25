@@ -5,46 +5,62 @@ import imgParams from './Assets/imgParametres.png';
 import Display from './componentsConnected/Display';
 
 const Connected = () => {
-    const navigate = useNavigate()
-    const [open, setOpen] = useState(false);                // Pour settings qui s'ouvre
-    const [user, setUser] = useState(null);                 // Pour changement d'utilisateur
-    const [tasks, setTasks] = useState([]);                 // Récupération des status, titres et descriptions
+    const navigate = useNavigate();
+    const [open, setOpen] = useState(false);
+    const [user, setUser] = useState(null);
+    const [tasks, setTasks] = useState([]);
+    const [error, setError] = useState(null);
 
-    const Open = () => {
-        setOpen(!open);
+    const [inputValues, setInputValues] = useState({
+        'not started': { title: '', description: '', due_time: '' },
+        'todo': { title: '', description: '', due_time: '' },
+        'in progress': { title: '', description: '', due_time: '' },
+        'done': { title: '', description: '', due_time: '' },
+    });
+
+    const toggleOpen = () => setOpen(!open);
+
+    const handleClick = (id) => {
+        navigate(`/todos/${id}`);
     };
-    const handleClick = async (id) => {
-        navigate(`/todos/${id}`)
-    }
 
-    const handleKeyDown = async (event, status) => {
-        const value = event.target.value
-        if (event.key == "Enter") {
-            console.log(`Entrée pressée dans la colonne : ${status} : ${value}`);
-            try {
-                const res = await fetch("http://localhost:3000/todos", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        "Authorization": `Bearer ${localStorage.getItem("token")}`
-                    },
-                    body: JSON.stringify({ status, value })
+    const handleClickButton = async (event, status) => {
+        event.preventDefault();
+        const { title, description, due_time } = inputValues[status];
 
-
-
-
-                });
-                if (!res.ok) throw new Error(`Erreur HTTP : ${res.status}`);
-                const data = await res.json();
-                setTasks(prevTasks => [...prevTasks, data]);
-                event.target.value = "";
-
-            } catch (err) {
-                console.error("Erreur :", err);
-            }
+        if (!title || !description || !due_time) {
+            setError("Please fill in all fields");
+            return;
         }
 
-    }
+        try {
+            const res = await fetch("http://localhost:3000/todos", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify({ status, title, description, due_time })
+            });
+
+            if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+
+            const data = await res.json();
+            setTasks(prevTasks => [...prevTasks, data]);
+
+            // reset inputs
+            setInputValues(prev => ({
+                ...prev,
+                [status]: { title: '', description: '', due_time: '' }
+            }));
+
+            setError(null);
+        } catch (err) {
+            console.error("Error:", err);
+            setError("Unable to add task");
+        }
+    };
+
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -54,74 +70,123 @@ const Connected = () => {
                     }
                 });
 
-                if (!res.ok) {
-                    throw new Error(`Erreur HTTP : ${res.status}`);
-                }
+                if (!res.ok) throw new Error(`Erreur HTTP : ${res.status}`);
 
                 const data = await res.json();
-                console.log(data.user);
-                console.log(data.tasks);
-
                 setUser(data.user);
                 setTasks(data.tasks);
-
             } catch (err) {
                 console.error("Erreur :", err);
-                navigate("/login"); // Tu peux rediriger si token invalid
+                navigate("/login");
             }
         };
-
         fetchUser();
-    }, []);
+    }, [navigate]);
 
-const renderTasks = (status) => {
-    const filtered = tasks.filter(task => task.status === status);
-    return filtered.length ? (
-        filtered.map((task, i) =>
-            <div>
-                <p key={i}>{task.title}</p>
-                <button onClick={() => handleClick(task.id)}>view</button>
-            </div>)
-    ) : <p>No tasks yet</p>;
+    const renderTasks = (status) => {
+        const filtered = tasks.filter(task => task.status === status);
+
+        return filtered.length ? (
+            filtered.map((task) =>
+                <div key={task.id}>
+                    <p>{task.title}</p>
+                    <button onClick={() => handleClick(task.id)}>View</button>
+                </div>
+            )
+        ) : (
+            <p>No tasks yet</p>
+        );
+    };
+
+    return (
+        <>
+            <header>
+                <div className='flex'>
+                    <div>
+                        {user ? (
+                            <p>Welcome {user.name} {user.firstname || ""}</p>
+                        ) : (
+                            <p>Loading...</p>
+                        )}
+                    </div>
+
+                    <div>
+                        <button className='settings'>
+                            <img
+                                className="settings"
+                                src={imgParams}
+                                alt='Settings'
+                                onClick={toggleOpen}
+                            />
+                        </button>
+                        {open && <Display />}
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <button>View todo of everyone</button>
+
+                <div className='container1'>
+                    {['not started', 'todo', 'in progress', 'done'].map((status) => (
+                        <div className='GotInfo' key={status}>
+                            <div>{status}</div>
+                            <br />
+
+                            <div>{renderTasks(status)}</div>
+
+                            <form className="form" onSubmit={(e) => handleClickButton(e, status)}>
+                                <p>Title</p>
+                                <input
+                                    type="text"
+                                    className="title"
+                                    placeholder="Title"
+                                    required
+                                    value={inputValues[status].title}
+                                    onChange={(e) =>
+                                        setInputValues(prev => ({
+                                            ...prev,
+                                            [status]: { ...prev[status], title: e.target.value }
+                                        }))
+                                    }
+                                />
+
+                                <p>Description</p>
+                                <textarea
+                                    className="description"
+                                    placeholder="Description"
+                                    required
+                                    value={inputValues[status].description}
+                                    onChange={(e) =>
+                                        setInputValues(prev => ({
+                                            ...prev,
+                                            [status]: { ...prev[status], description: e.target.value }
+                                        }))
+                                    }
+                                />
+
+                                <p>Due time :</p>
+                                <input
+                                    type="date"
+                                    required
+                                    value={inputValues[status].due_time}
+                                    onChange={(e) =>
+                                        setInputValues(prev => ({
+                                            ...prev,
+                                            [status]: { ...prev[status], due_time: e.target.value }
+                                        }))
+                                    }
+                                />
+
+                                <p>{error}</p>
+                                <button type="submit">Send</button>
+                            </form>
+                        </div>
+                    ))}
+                </div>
+            </main>
+        </>
+    );
 };
 
-
-return (
-    <>
-        <header>
-            <div className='flex'>
-                <div>
-                    {user ? (
-                        <div>
-                            <p>Welcome {user.name} {user.firstname}</p>
-                        </div>
-                    ) : (
-                        <p>Load...</p>
-                    )}
-                </div>
-                <div>
-                    <button className='settings'>
-                        <img className="settings" src={imgParams} alt='Settings' onClick={Open} />
-                    </button>
-
-                    {open && <Display />}
-                </div>
-            </div>
-        </header>
-        <main>
-            <div className='container1'>
-                {['not started', 'todo', 'in progress', 'done'].map((status) => (
-                    <div className='GotInfo' key={status}>
-                        <div>{status}</div>
-
-                        <div>{renderTasks(status)}</div>
-                        <input onKeyDown={(e) => handleKeyDown(e, status)} type="text" placeholder="Add task" />
-                    </div>
-                ))}
-            </div>
-        </main>
-
-    </>
-);
-    };
 export default Connected;

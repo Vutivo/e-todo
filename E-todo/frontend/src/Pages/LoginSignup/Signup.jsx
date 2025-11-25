@@ -39,7 +39,7 @@ const Singup = () => {
             setError(data.message);
         } else {
             setError("");
-            navigate(`/todos/`)
+            navigate(`/user/todos`)
         }
     } catch (error) {
         console.error('Erreur:', error);

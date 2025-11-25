@@ -26,7 +26,11 @@ export default function InfoUser() {
                     },
                 });
 
-                if (!res.ok) throw new Error(`HTTP Error : ${res.status}`);
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    console.error("Error fetching user:", res.status, errorData);
+                    throw new Error(`HTTP Error: ${res.status}`);
+                }
                 const data = await res.json();
 
                 setUser(data.user);
@@ -38,7 +42,7 @@ export default function InfoUser() {
 
             } catch (err) {
                 console.error(err);
-                navigate("/login");
+                // navigate("/login");
             }
         };
 
@@ -82,7 +86,7 @@ export default function InfoUser() {
         const password = window.prompt("Enter your password to valid your modifications");
         const email = formData.email;
         if (!password) return;
-        if (!(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))){
+        if (!(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))) {
             alert('please enter valid email')
             return;
         }

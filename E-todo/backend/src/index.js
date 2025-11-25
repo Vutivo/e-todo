@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const authModule = require("./routes/auth/auth.js"); 
 const connectDB = require('./config/db');
 const todoRoutes = require('./routes/todo/todo.js');
+const userRoutes = require('./routes/user/user.js');
 const notFoundMiddleware = require("./middleware/notFound.js");
 
 const app = express();
@@ -17,7 +18,8 @@ async function startServer() {
     app.locals.db = db;
     
     app.use('/', authModule.router);
-    app.use('/', todoRoutes);
+    app.use('/', todoRoutes)
+    app.use('/', userRoutes);
     
     app.use(notFoundMiddleware);
 

@@ -11,7 +11,7 @@ router.get("/user/todos", authenticateToken, async (req, res) => {
         // Récupération de l'utilisateur
         const [userRows] = await db.query("SELECT * FROM User WHERE id = ?", [id]);
         if (userRows.length === 0) {
-            return res.status(404).json({ message: "Utilisateur introuvable" });
+            return res.status(404).json({ message: "Unknow user" });
         }
         const user = userRows[0];
 
@@ -28,7 +28,7 @@ router.get("/user/todos", authenticateToken, async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Erreur serveur" });
+        res.status(500).json({ message: "Error server" });
     }
 });
 
@@ -56,7 +56,7 @@ router.post("/todos", authenticateToken, async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Erreur serveur" });
+        res.status(500).json({ message: "Error server" });
     }
 });
 

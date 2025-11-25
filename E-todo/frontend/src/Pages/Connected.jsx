@@ -5,45 +5,59 @@ import imgParams from './Assets/imgParametres.png';
 import Display from './componentsConnected/Display';
 
 const Connected = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [user, setUser] = useState(null);
     const [tasks, setTasks] = useState([]);
+    const [error, setError] = useState(null);
 
-    const Open = () => setOpen(!open);
-    const handleClick = async (id) => {
-       navigate(`/todos/${id}`)
+    const [inputValues, setInputValues] = useState({
+        'not started': { title: '', description: '', due_time: '' },
+        'todo': { title: '', description: '', due_time: '' },
+        'in progress': { title: '', description: '', due_time: '' },
+        'done': { title: '', description: '', due_time: '' },
+    });
 
+    const toggleOpen = () => setOpen(!open);
 
-    }
-    const handleKeyDown = async (event, status) => {
-        const value = event.target.value
-        if (event.key == "Enter") {
-            console.log(`Entrée pressée dans la colonne : ${status} : ${value}`);
-            try {
-                const res = await fetch("http://localhost:3000/todos", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        "Authorization": `Bearer ${localStorage.getItem("token")}`
-                    },
-                    body: JSON.stringify({ status, value })
+    const handleClick = (id) => {
+        navigate(`/todos/${id}`);
+    };
 
+    const handleClickButton = async (event, status) => {
+        event.preventDefault();
+        const { title, description, due_time } = inputValues[status];
 
-
-
-                });
-                if (!res.ok) throw new Error(`Erreur HTTP : ${res.status}`);
-                const data = await res.json();
-                setTasks(prevTasks => [...prevTasks, data]);
-                event.target.value = "";
-
-            } catch (err) {
-                console.error("Erreur :", err);
-            }
+        if (!title || !description || !due_time) {
+            setError("Please fill in all fields");
+            return;
         }
 
-    }
+        try {
+            const res = await fetch("http://localhost:3000/todos", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify({ status, title, description, due_time })
+            });
+            if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+            const data = await res.json();
+            console.log("Added task:", data);
+            setTasks(prevTasks => [...prevTasks, data]);
+
+            setInputValues(prev => ({
+                ...prev,
+                [status]: { title: '', description: '', due_time: '' }
+            }));
+
+            setError(null);
+        } catch (err) {
+            console.error("Error:", err);
+            setError("Unable to add task");
+        }
+    };
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -53,16 +67,13 @@ const Connected = () => {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }
                 });
-                if (!res.ok) throw new Error(`Erreur HTTP : ${res.status}`);
+                if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
                 const data = await res.json();
                 setUser(data.user);
                 setTasks(data.tasks);
-                console.log("acces " + data.tokensuccess)
-
             } catch (err) {
-                console.error("Erreur :", err);
+                console.error("Error:", err);
                 navigate("/login");
-
             }
         };
         fetchUser();
@@ -71,10 +82,10 @@ const Connected = () => {
     const renderTasks = (status) => {
         const filtered = tasks.filter(task => task.status === status);
         return filtered.length ? (
-            filtered.map((task, i) =>
-                <div>
-                    <p key={i}>{task.title}</p>
-                    <button onClick={() => handleClick(task.id)}>view</button>
+            filtered.map((task) =>
+                <div key={task.id}>
+                    <p>{task.title}</p>
+                    <button onClick={() => handleClick(task.id)}>View</button>
                 </div>)
         ) : <p>No tasks yet</p>;
     };
@@ -89,27 +100,69 @@ const Connected = () => {
                                 <p>Welcome {user.name} {user.firstname || ''}</p>
                             </div>
                         ) : (
-                            <p>Load...</p>
+                            <p>Loading...</p>
                         )}
                     </div>
                     <div>
                         <button className='settings'>
-                            <img className="settings" src={imgParams} alt='Settings' onClick={Open} />
+                            <img className="settings" src={imgParams} alt='Settings' onClick={toggleOpen} />
                         </button>
                         {open && <Display />}
                     </div>
                 </div>
             </header>
             <main>
+                <button>View todo of everyone</button>
                 <div className='container1'>
                     {['not started', 'todo', 'in progress', 'done'].map((status) => (
                         <div className='GotInfo' key={status}>
                             <div>{status}</div><br />
                             <div>{renderTasks(status)}</div>
-                            <input onKeyDown={(e) => handleKeyDown(e, status)} type="text" placeholder="Add task" />
+                            <form className="form" onSubmit={(e) => handleClickButton(e, status)}>
+                                <p>Title</p>
+                                <input
+                                    type="text"
+                                    value={inputValues[status].title}
+                                    className="title"
+                                    placeholder="Title"
+                                    onChange={(e) =>
+                                        setInputValues(prev => ({
+                                            ...prev,
+                                            [status]: { ...prev[status], title: e.target.value }
+                                        }))
+                                    }
+                                    required
+                                />
+                                <p>Description</p>
+                                <textarea
+                                    className="description"
+                                    value={inputValues[status].description}
+                                    onChange={(e) =>
+                                        setInputValues(prev => ({
+                                            ...prev,
+                                            [status]: { ...prev[status], description: e.target.value }
+                                        }))
+                                    }
+                                    placeholder="Description"
+                                    required
+                                ></textarea>
+                                <p>Due time : </p>
+                                <input
+                                    type="date"
+                                    value={inputValues[status].due_time}
+                                    required
+                                    onChange={(e) =>
+                                        setInputValues(prev => ({
+                                            ...prev,
+                                            [status]: { ...prev[status], due_time: e.target.value }
+                                        }))
+                                    }
+                                />
+                                <p>{error}</p>
+                                <button type="submit">Send</button>
+                            </form>
                         </div>
                     ))}
-                    <button className='NoInfo'>Create your 1st to do list</button>
                 </div>
             </main>
         </>

@@ -16,36 +16,38 @@ const Singup = () => {
     const navigate = useNavigate();
     const goToLogin = () => {
         navigate("/login");
-     };
+    };
 
-     const handleClick = async () => {
-    try {
-        const response = await fetch('http://localhost:3000/register', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password, name, firstname })
-        });
+    const handleClick = async () => {
+        try {
+            const response = await fetch('http://localhost:3000/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, name, firstname })
+            });
 
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            setError("Error");
-            return;
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                setError("Error");
+                return;
+            }
+
+            const data = await response.json();
+
+
+            if (!data.success) {
+                setError(data.message);
+            } else {
+                localStorage.setItem("token", data.token)
+
+                setError("");
+                navigate(`/user/todos`)
+            }
+        } catch (error) {
+            console.error('Erreur:', error);
+            setError("Erreur de connexion au serveur: " + error.message);
         }
-
-        const data = await response.json();
-        
-        
-        if(!data.success){
-            setError(data.message);
-        } else {
-            setError("");
-            navigate(`/user/todos`)
-        }
-    } catch (error) {
-        console.error('Erreur:', error);
-        setError("Erreur de connexion au serveur: " + error.message);
-    }
-};
+    };
 
 
     return (
@@ -65,15 +67,15 @@ const Singup = () => {
                     </div>
                     <div className="input">
                         <img src={person_img} alt="My name" />
-                        <input type="text" placeholder='Firstname' value={firstname} onChange={(e) => setFirstname(e.target.value)}/>
+                        <input type="text" placeholder='Firstname' value={firstname} onChange={(e) => setFirstname(e.target.value)} />
                     </div>
                     <div className="input">
                         <img src={email_img} alt="My e-mail" />
-                    <input type="email" placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)}/>
+                        <input type="email" placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} />
                     </div>
                     <div className="input">
                         <img src={password_img} alt="My password" />
-                        <input type="password" placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
+                        <input type="password" placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
                     <p className="alert-message" >{error}</p>
                     <div className="submit-container">

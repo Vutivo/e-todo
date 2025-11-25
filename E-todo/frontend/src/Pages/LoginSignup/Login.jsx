@@ -36,7 +36,7 @@ const Login = () => {
                 setPassword("");
             } else {
                 setError("");
-                navigate(`/todos`);
+                navigate(`/user/todos`);
                 
                 localStorage.setItem("token",data.token)
 

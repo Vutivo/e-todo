@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./Home.css";
+import "./styles/Home.css";
 import ButtonAnim from "./componentHome/ButtonAnim";
 
 const Home = () => {

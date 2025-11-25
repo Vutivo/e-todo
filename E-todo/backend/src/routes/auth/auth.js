@@ -48,6 +48,10 @@ router.post('/register', async (req, res) => {
   if (!email || !password || !name || !firstname) {
     return res.status(400).json({ success: false, message: 'Need all information' })
   }
+  if (!(/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))) {
+    return res.status(400).json({ success: false, message: 'Invalid email format' });
+
+  }
 
   try {
     const [row] = await db.query(
@@ -68,10 +72,10 @@ router.post('/register', async (req, res) => {
 
     );
     const id = rows.insertId;
-    const token = jwt.sign({ id: userId }, SECRET, { expiresIn: '3h' });
+    const token = jwt.sign({ id: id }, SECRET, { expiresIn: '3h' });
 
 
-    res.status(200).json({ success: true, id: id, token: token });
+    res.status(200).json({ success: true, id: id, token });
 
 
 

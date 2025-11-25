@@ -63,17 +63,6 @@ button.settings:hover img{
     background-color: red;
     
 }
-.NoInfo{
-    display: none;
-    height: 25vh;
-    width: 25vw;
-    cursor: pointer;
-    --angle: 45deg; 
-    background: linear-gradient(var(--angle), oklab(66% 0.187 0.133), oklab(75.2% 0.015 0.146), oklab(88.7% -0.017 0.181));
-    border: none;
-    border-radius: 20px;
-    animation: Scale 10s infinite;
-}
 footer {
     position: fixed;
     bottom: 0;

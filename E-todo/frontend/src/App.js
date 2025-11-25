@@ -6,6 +6,7 @@ import Home from './Pages/Home'
 import Connected from './Pages/Connected'
 import TodoInfo from './Pages/componentsConnected/TodoInfo'
 import NotFound from './Pages/NotFound/NotFound';
+import InfoUser from "./Pages/componentsConnected/InfoUser";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
 
         <Route path="*" element={<NotFound />} />
        
+        <Route path="/user" element={<InfoUser />} />
       </Routes>
     </Router>
   );

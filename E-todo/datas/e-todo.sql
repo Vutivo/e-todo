@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS Todo (
     due_time DATETIME,
     status ENUM('not started', 'todo', 'in progress', 'done') DEFAULT 'not started',
     user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES `User`(id)
+    FOREIGN KEY (user_id) REFERENCES `User`(id) ON DELETE CASCADE
 );
  
 INSERT INTO `User`(email, password, name, firstname) VALUES

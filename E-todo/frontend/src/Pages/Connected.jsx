@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import './Connected.css';
+import './styles/Connected.css';
 import imgParams from './Assets/imgParametres.png';
 import Display from './componentsConnected/Display';
 
@@ -42,11 +42,13 @@ const Connected = () => {
                 },
                 body: JSON.stringify({ status, title, description, due_time })
             });
+
             if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+
             const data = await res.json();
-            console.log("Added task:", data);
             setTasks(prevTasks => [...prevTasks, data]);
 
+            // reset inputs
             setInputValues(prev => ({
                 ...prev,
                 [status]: { title: '', description: '', due_time: '' }
@@ -67,27 +69,33 @@ const Connected = () => {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }
                 });
-                if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+
+                if (!res.ok) throw new Error(`Erreur HTTP : ${res.status}`);
+
                 const data = await res.json();
                 setUser(data.user);
                 setTasks(data.tasks);
             } catch (err) {
-                console.error("Error:", err);
+                console.error("Erreur :", err);
                 navigate("/login");
             }
         };
         fetchUser();
-    }, []);
+    }, [navigate]);
 
     const renderTasks = (status) => {
         const filtered = tasks.filter(task => task.status === status);
+
         return filtered.length ? (
             filtered.map((task) =>
                 <div key={task.id}>
                     <p>{task.title}</p>
                     <button onClick={() => handleClick(task.id)}>View</button>
-                </div>)
-        ) : <p>No tasks yet</p>;
+                </div>
+            )
+        ) : (
+            <p>No tasks yet</p>
+        );
     };
 
     return (
@@ -96,46 +104,58 @@ const Connected = () => {
                 <div className='flex'>
                     <div>
                         {user ? (
-                            <div>
-                                <p>Welcome {user.name} {user.firstname || ''}</p>
-                            </div>
+                            <p>Welcome {user.name} {user.firstname || ""}</p>
                         ) : (
                             <p>Loading...</p>
                         )}
                     </div>
+
                     <div>
                         <button className='settings'>
-                            <img className="settings" src={imgParams} alt='Settings' onClick={toggleOpen} />
+                            <img
+                                className="settings"
+                                src={imgParams}
+                                alt='Settings'
+                                onClick={toggleOpen}
+                            />
                         </button>
                         {open && <Display />}
                     </div>
                 </div>
             </header>
+
             <main>
                 <button>View todo of everyone</button>
+
                 <div className='container1'>
                     {['not started', 'todo', 'in progress', 'done'].map((status) => (
                         <div className='GotInfo' key={status}>
-                            <div>{status}</div><br />
+                            <div>{status}</div>
+                            <br />
+
                             <div>{renderTasks(status)}</div>
+
                             <form className="form" onSubmit={(e) => handleClickButton(e, status)}>
                                 <p>Title</p>
                                 <input
                                     type="text"
-                                    value={inputValues[status].title}
                                     className="title"
                                     placeholder="Title"
+                                    required
+                                    value={inputValues[status].title}
                                     onChange={(e) =>
                                         setInputValues(prev => ({
                                             ...prev,
                                             [status]: { ...prev[status], title: e.target.value }
                                         }))
                                     }
-                                    required
                                 />
+
                                 <p>Description</p>
                                 <textarea
                                     className="description"
+                                    placeholder="Description"
+                                    required
                                     value={inputValues[status].description}
                                     onChange={(e) =>
                                         setInputValues(prev => ({
@@ -143,14 +163,13 @@ const Connected = () => {
                                             [status]: { ...prev[status], description: e.target.value }
                                         }))
                                     }
-                                    placeholder="Description"
-                                    required
-                                ></textarea>
-                                <p>Due time : </p>
+                                />
+
+                                <p>Due time :</p>
                                 <input
                                     type="date"
-                                    value={inputValues[status].due_time}
                                     required
+                                    value={inputValues[status].due_time}
                                     onChange={(e) =>
                                         setInputValues(prev => ({
                                             ...prev,
@@ -158,6 +177,7 @@ const Connected = () => {
                                         }))
                                     }
                                 />
+
                                 <p>{error}</p>
                                 <button type="submit">Send</button>
                             </form>

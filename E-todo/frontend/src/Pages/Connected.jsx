@@ -24,6 +24,10 @@ const Connected = () => {
         navigate(`/todos/${id}`);
     };
 
+    const handleAllTodos = () => {
+        navigate("/todo/all");
+    }
+
     const handleClickButton = async (event, status) => {
         event.preventDefault();
         const { title, description, due_time } = inputValues[status];
@@ -125,7 +129,7 @@ const Connected = () => {
             </header>
 
             <main>
-                <button>View todo of everyone</button>
+                <button onClick={handleAllTodos}>View todo of everyone</button>
 
                 <div className='container1'>
                     {['not started', 'todo', 'in progress', 'done'].map((status) => (

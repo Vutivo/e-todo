@@ -2,20 +2,52 @@ const express = require('express');
 const router = express.Router();
 const { authenticateToken } = require("../../middleware/auth.js");
 
+router.get("/todos", authenticateToken, async (req, res) => {
+    const db = req.app.locals.db;
+
+    try {
+        const [todos] = await db.query(
+            "SELECT title, status, user_id FROM `Todo`"
+        );
+
+        const userIds = todos.map(todo => todo.user_id);
+        const [users] = await db.query(
+            "SELECT id, name, firstname FROM `User` WHERE id IN (?)",
+            [userIds]
+        );
+
+        const tasks = todos.map(todo => ({
+            title: todo.title,
+            status: todo.status,
+            name: users.find(user => user.id === todo.user_id)?.name || 'Unknown',
+            firstname: users.find(user => user.id === todo.user_id)?.firstname || 'Unknown'
+        }));
+
+        console.log("Fetched todos:", tasks);
+
+        res.status(200).json({
+            tokensuccess: true,
+            tasks
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error server" });
+    }
+});
+
 
 router.get("/user/todos", authenticateToken, async (req, res) => {
     const db = req.app.locals.db;
     const { id } = req.user;  
 
     try {
-        // Récupération de l'utilisateur
         const [userRows] = await db.query("SELECT * FROM User WHERE id = ?", [id]);
         if (userRows.length === 0) {
             return res.status(404).json({ message: "Unknow user" });
         }
         const user = userRows[0];
 
-        // Récupération des todos
         const [tasks] = await db.query(
             "SELECT status, description, title, id FROM Todo WHERE user_id = ?",
             [id]

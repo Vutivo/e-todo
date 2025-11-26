@@ -7,6 +7,7 @@ import Connected from './Pages/Connected'
 import TodoInfo from './Pages/componentsConnected/TodoInfo'
 import NotFound from './Pages/NotFound/NotFound';
 import InfoUser from "./Pages/routesFromConnected/InfoUser";
+import AllTodos from "./Pages/routesFromConnected/allTodos";
 
 function App() {
   return (
@@ -16,13 +17,14 @@ function App() {
         <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/user/todos" element={<Connected />} />
+        <Route path="/user" element={<InfoUser />} />
         <Route path="/todos/:id" element={<TodoInfo />} />
-        <Route path="/todo/all" element={<TodoInfo />} />
+        <Route path="/todo/all" element={< AllTodos/>} />
     
 
         <Route path="*" element={<NotFound />} />
        
-        <Route path="/user" element={<InfoUser />} />
+        
       </Routes>
     </Router>
   );

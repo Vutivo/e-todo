@@ -36,7 +36,7 @@ const Singup = () => {
 
 
             if (!data.success) {
-                setError(data.message);
+                setError(data.msg);
             } else {
                 localStorage.setItem("token", data.token)
 
@@ -44,8 +44,7 @@ const Singup = () => {
                 navigate(`/user/todos`)
             }
         } catch (error) {
-            console.error('Erreur:', error);
-            setError("Erreur de connexion au serveur: " + error.message);
+            setError("Error server: " + error.message);
         }
     };
 
@@ -89,7 +88,6 @@ const Singup = () => {
 }
 
 export default Singup
-
 
 
 

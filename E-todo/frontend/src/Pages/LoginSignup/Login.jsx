@@ -32,7 +32,7 @@ const Login = () => {
             
 
             if (!data.success) {
-                setError(data.message);
+                setError(data.msg);
                 setPassword("");
             } else {
                 setError("");
@@ -42,8 +42,7 @@ const Login = () => {
 
             }
         } catch (error) {
-            console.error('Erreur:', error);
-            setError("Erreur de connexion au serveur: " + error.message);
+            setError("Error server: " + error.message);
         }
     };
 

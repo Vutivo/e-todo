@@ -32,7 +32,7 @@ router.get("/todos", authenticateToken, async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Error server" });
+        res.status(500).json({ msg: "Internal server error" });
     }
 });
 
@@ -44,7 +44,7 @@ router.get("/user/todos", authenticateToken, async (req, res) => {
     try {
         const [userRows] = await db.query("SELECT * FROM User WHERE id = ?", [id]);
         if (userRows.length === 0) {
-            return res.status(404).json({ message: "Unknow user" });
+            return res.status(404).json({ msg: "Not found" });
         }
         const user = userRows[0];
 
@@ -53,14 +53,16 @@ router.get("/user/todos", authenticateToken, async (req, res) => {
             [id]
         );
 
-        res.json({ user,
-             tasks,
-             id: user.id,
-            tokensuccess: true });
+        res.json({ 
+            user,
+            tasks,
+            id: user.id,
+            tokensuccess: true 
+        });
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Error server" });
+        res.status(500).json({ msg: "Internal server error" });
     }
 });
 
@@ -68,6 +70,10 @@ router.post("/todos", authenticateToken, async (req, res) => {
     const db = req.app.locals.db;
     const userId = req.user.id;
     const { status, title, description, due_time } = req.body;
+
+    if (!title || !description || !due_time) {
+        return res.status(400).json({ msg: "Bad parameter" });
+    }
 
     try {
         const [insertResult] = await db.query(
@@ -80,7 +86,6 @@ router.post("/todos", authenticateToken, async (req, res) => {
             [insertResult.insertId]
         );
 
-
         res.status(200).json({
             tokensuccess: true,
             ...rows[0]
@@ -88,7 +93,7 @@ router.post("/todos", authenticateToken, async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Error server" });
+        res.status(500).json({ msg: "Internal server error" });
     }
 });
 
@@ -103,12 +108,12 @@ router.get("/todos/:id", authenticateToken, async (req, res) => {
             [todoId]
         );
 
-        const todo = row[0];
-        const description = todo.description;
-
-        if (!description) {
-            description = "This is a best description"
+        if (row.length === 0) {
+            return res.status(404).json({ msg: "Not found" });
         }
+
+        const todo = row[0];
+        let description = todo.description;
 
         res.status(200).json({
             tokensuccess: true,
@@ -121,52 +126,69 @@ router.get("/todos/:id", authenticateToken, async (req, res) => {
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Erreur serveur" });
+        res.status(500).json({ msg: "Internal server error" });
     }
 });
 
 router.delete("/todos/:id", authenticateToken, async (req, res) => {
-
     const db = req.app.locals.db;
     const todoId = req.params.id;
 
+    try {
+        const [checkRows] = await db.query(
+            "SELECT id FROM `Todo` WHERE id = ?",
+            [todoId]
+        );
 
-    try{
-        const [row] = await db.query(
+        if (checkRows.length === 0) {
+            return res.status(404).json({ msg: "Not found" });
+        }
+
+        await db.query(
             "DELETE FROM `Todo` WHERE id = ?",
             [todoId]
         );
 
-        res.status(200).json({ message: "Todo deleted successfully", tokensuccess: true });
+        res.status(200).json({ 
+            msg: `Successfully deleted record number: ${todoId}`, 
+            tokensuccess: true 
+        });
 
-    }catch(err){
+    } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Erreur serveur" });
+        res.status(500).json({ msg: "Internal server error" });
     }
-
-
 });
 
-router.put("/todos/:id", authenticateToken,  async (req, res) => {
+router.put("/todos/:id", authenticateToken, async (req, res) => {
     const db = req.app.locals.db;
     const todoId = req.params.id;
     const { title, description, status, due_time } = req.body;
 
     try {
+        const [checkRows] = await db.query(
+            "SELECT id FROM `Todo` WHERE id = ?",
+            [todoId]
+        );
+
+        if (checkRows.length === 0) {
+            return res.status(404).json({ msg: "Not found" });
+        }
+
         await db.query(
             "UPDATE `Todo` SET title = ?, description = ?, status = ?, due_time = ? WHERE id = ?",
             [title, description, status, due_time, todoId]
         );
 
-        res.status(200).json({ message: "Todo updated successfully", tokensuccess: true });
+        res.status(200).json({ 
+            msg: "Todo updated successfully", 
+            tokensuccess: true 
+        });
 
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: "Erreur serveur" });
+        res.status(500).json({ msg: "Internal server error" });
     }
-
-
 });
 
 module.exports = router;
-

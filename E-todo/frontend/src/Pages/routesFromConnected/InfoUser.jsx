@@ -55,7 +55,7 @@ export default function InfoUser() {
         if (!password) return;
 
         try {
-            const res = await fetch("http://localhost:3000/user", {
+            const res = await fetch(`http://localhost:3000/users/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default function InfoUser() {
         }
 
         try {
-            const res = await fetch("http://localhost:3000/user", {
+            const res = await fetch(`http://localhost:3000/users/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

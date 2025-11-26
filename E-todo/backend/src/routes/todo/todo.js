@@ -42,7 +42,7 @@ router.get("/user/todos", authenticateToken, async (req, res) => {
     const { id } = req.user;  
 
     try {
-        const [userRows] = await db.query("SELECT * FROM User WHERE id = ?", [id]);
+        const [userRows] = await db.query("SELECT name, firstname, email, id FROM User WHERE id = ?", [id]);
         if (userRows.length === 0) {
             return res.status(404).json({ msg: "Not found" });
         }

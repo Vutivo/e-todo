@@ -4,7 +4,7 @@ const { authenticateToken } = require("./../../middleware/auth.js");
 const bcrypt = require("bcryptjs");
 
 router.get("/users/:id", authenticateToken, async (req, res) => {
-    const value = req.params.id; // could be ID or email
+    const value = req.params.id; 
     const db = req.app.locals.db;
 
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -45,8 +45,8 @@ router.get("/users/:id", authenticateToken, async (req, res) => {
 });
 
 
-router.delete("/user", authenticateToken, async (req, res) => {
-    const userId = req.user.id;
+router.delete("/users/:id", authenticateToken, async (req, res) => {
+    const userId = req.params.id;
     const { password } = req.body; 
     const db = req.app.locals.db;
     
@@ -81,8 +81,8 @@ router.delete("/user", authenticateToken, async (req, res) => {
     }
 });
 
-router.put("/user", authenticateToken, async (req, res) => {
-    const userId = req.user.id;
+router.put("/users/:id", authenticateToken, async (req, res) => {
+    const userId = req.params.id;
     const { name, firstname, email, password } = req.body; 
     const db = req.app.locals.db;
     

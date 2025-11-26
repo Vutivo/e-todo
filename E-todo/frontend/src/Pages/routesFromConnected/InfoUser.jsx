@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import '../styles/InfoUser.css';
 
@@ -12,42 +12,43 @@ export default function InfoUser() {
     });
 
     const navigate = useNavigate();
+    const { id } = useParams();
 
     const backToConnected = () => {
         navigate(`/user/todos`);
     };
 
     useEffect(() => {
-        const fetchInfo = async () => {
-            try {
-                const res = await fetch("http://localhost:3000/user", {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    },
-                });
+    const fetchInfo = async () => {
+        try {
+            const res = await fetch(`http://localhost:3000/users/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
 
-                if (!res.ok) {
-                    const errorData = await res.json();
-                    console.error("Error fetching user:", res.status, errorData);
-                    throw new Error(`HTTP Error: ${res.status}`);
-                }
-                const data = await res.json();
-
-                setUser(data.user);
-                setFormData({
-                    name: data.user.name,
-                    firstname: data.user.firstname,
-                    email: data.user.email,
-                });
-
-            } catch (err) {
-                console.error(err);
-                // navigate("/login");
+            if (!res.ok) {
+                const errorData = await res.json();
+                console.error("Error fetching user:", res.status, errorData);
+                throw new Error(`HTTP Error: ${res.status}`);
             }
-        };
 
-        fetchInfo();
-    }, [navigate]);
+            const data = await res.json();
+
+            setUser(data.user);
+            setFormData({
+                name: data.user.name,
+                firstname: data.user.firstname,
+                email: data.user.email,
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    fetchInfo();
+}, [id, navigate]);
+
 
     const deleteAccount = async () => {
         const password = window.prompt("Enter your password to valid your deletion");

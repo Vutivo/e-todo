@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import '../styles/Connected.css';
+import '../styles/styleConnected.css';
 import imgParams from '../Assets/imgParametres.png';
 import Display from '../componentsConnected/Display';
 

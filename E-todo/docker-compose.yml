@@ -42,7 +42,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./e-todo.sql:/docker-entrypoint-initdb.d/e-todo.sql
+      - ./e-todo.sql:/docker-entrypoint-initdb.d/e-todo.sql:ro
       - db_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${DB_USER}", "-p${DB_PASSWORD}"]

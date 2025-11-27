@@ -215,6 +215,10 @@ export default function InfoUser() {
                     </>
                 )}
 
+                <button className="button">
+                    view all users
+                </button>
+
                 <button onClick={deleteAccount} className="button">
                     delete your account
                 </button>

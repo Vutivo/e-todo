@@ -11,6 +11,14 @@ router.get("/todos", authenticateToken, async (req, res) => {
         );
 
         const userIds = todos.map(todo => todo.user_id);
+
+        if (userIds.length === 0) {
+            return res.status(200).json({
+                tokensuccess: true,
+                tasks: []
+            });
+        }
+
         const [users] = await db.query(
             "SELECT id, name, firstname FROM `User` WHERE id IN (?)",
             [userIds]
@@ -22,8 +30,6 @@ router.get("/todos", authenticateToken, async (req, res) => {
             name: users.find(user => user.id === todo.user_id)?.name || 'Unknown',
             firstname: users.find(user => user.id === todo.user_id)?.firstname || 'Unknown'
         }));
-
-        console.log("Fetched todos:", tasks);
 
         res.status(200).json({
             tokensuccess: true,

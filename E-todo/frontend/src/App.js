@@ -8,6 +8,7 @@ import TodoInfo from './Pages/componentsConnected/TodoInfo'
 import NotFound from './Pages/NotFound/NotFound';
 import InfoUser from "./Pages/routesFromConnected/InfoUser";
 import AllTodos from "./Pages/routesFromConnected/allTodos";
+import InfoAllUsers from "./Pages/routesFromConnected/infoAllUsers";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/user/todos" element={<Connected />} />
         <Route path="/users/:id" element={<InfoUser />} />
+        <Route path="/user" element={<InfoAllUsers />} />
         <Route path="/todos/:id" element={<TodoInfo />} />
         <Route path="/todo/all" element={< AllTodos/>} />
     

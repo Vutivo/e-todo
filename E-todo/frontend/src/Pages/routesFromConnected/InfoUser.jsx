@@ -117,6 +117,9 @@ export default function InfoUser() {
             alert("Server error");
         }
     };
+    const viewAllUsers = () => {
+        navigate("/user");
+    };
 
     const handleCancel = () => {
         setFormData({
@@ -215,7 +218,7 @@ export default function InfoUser() {
                     </>
                 )}
 
-                <button className="button">
+                <button className="button" onClick={viewAllUsers}>
                     view all users
                 </button>
 

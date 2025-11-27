@@ -26,7 +26,7 @@ router.get("/users/:id", authenticateToken, async (req, res) => {
 
         // Fetch full user data
         const [userRows] = await db.query(
-            "SELECT name, firstname, email, created_at FROM User WHERE id = ?",
+            "SELECT name, firstname, email, password, created_at FROM User WHERE id = ?",
             [userId]
         );
 
@@ -123,6 +123,31 @@ router.put("/users/:id", authenticateToken, async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, msg: "Internal server error" });
+    }
+});
+
+router.get("/user", authenticateToken, async (req, res) => {
+    const db = req.app.locals.db;
+    try {
+        const [rows] = await db.query("SELECT id, name, firstname, email, password created_at FROM `User`");
+
+        const users = rows.map(row => ({
+            id: row.id,
+            name: row.name,
+            firstname: row.firstname,
+            email: row.email,
+            created_at: row.created_at,
+            password: row.password
+        }));
+        
+        res.status(200).json({
+            tokensuccess: true,
+            users
+        });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ msg: "Internal server error" });
     }
 });
 

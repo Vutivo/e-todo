@@ -106,7 +106,7 @@ const Connected = () => {
         <>
             <header>
                 <div className='UserTodosHeader'>
-                    <button className="buttonConnectedHeader">View todo of everyone</button>
+                    <button className="buttonConnectedHeader"onClick={handleAllTodos}>View todo of everyone</button>
                     <div>
                         {user ? (
                             <p>Welcome {user.name} {user.firstname || ""}</p>

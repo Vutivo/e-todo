@@ -63,12 +63,6 @@ const AllTodos = () => {
                     <div>
                         <p> View All ToDo </p>
                     </div>
-                    <div>
-                        <button className='settings' onClick={toggleOpen}>
-                            <img className="settings" src={imgParams} alt='Settings' />
-                        </button>
-                        {open && <Display />}
-                    </div>
                 </div>
             </header>
 

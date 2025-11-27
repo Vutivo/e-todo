@@ -6,14 +6,18 @@
 }
 .table{
     min-width: 80vw;
-    min-height: 50vh;
-    margin: auto;
+    min-height: 20vh;
     text-align: center;
-    border: solid black;
+    border: solid rgba(0, 0, 0, 0.555);
 }
 .td{
     --angle: 45deg; 
-    background: linear-gradient(var(--angle), oklab(15.9% 0.016 -0.048), oklab(22.6% 0.003 -0.043), oklab(28.5% -0.012 -0.058), oklab(34.4% -0.018 -0.065), oklab(46.7% -0.019 -0.064));
+    background: linear-gradient(var(--angle),
+    oklab(15.9% 0.016 -0.048),
+    oklab(22.6% 0.003 -0.043),
+    oklab(28.5% -0.012 -0.058),
+    oklab(34.4% -0.018 -0.065),
+    oklab(46.7% -0.019 -0.064));
 }
 .button{
     min-height: 2vh;
@@ -24,6 +28,10 @@
     border: none;
     border-radius: 20px;
     animation: ScaleUser 7s infinite;
+}
+.buttonUserInfo{
+    display: flex;
+    justify-content: space-evenly;
 }
 
 @keyframes ScaleUser {

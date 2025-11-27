@@ -1,4 +1,4 @@
-*, body, header{
+ /* *, body, header{
     margin: 0;
     padding: 0;
 }
@@ -58,8 +58,8 @@ button.settings:hover img{
 
 .GotInfo{
     display: block;
-    /* min-height: 50vh; */
-    /* min-width: 15vw; */
+     min-height: 50vh; 
+     min-width: 15vw; 
     background-color: red;
     
 }
@@ -94,4 +94,4 @@ footer {
     100%{
         transform : scale(1);
     }
-}
+}  */

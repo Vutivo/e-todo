@@ -4,7 +4,7 @@ const { authenticateToken } = require("./../../middleware/auth.js");
 const bcrypt = require("bcryptjs");
 
 router.get("/users/:id", authenticateToken, async (req, res) => {
-    const value = req.params.id; 
+    const value = req.params.id;
     const db = req.app.locals.db;
 
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -47,33 +47,33 @@ router.get("/users/:id", authenticateToken, async (req, res) => {
 
 router.delete("/users/:id", authenticateToken, async (req, res) => {
     const userId = req.params.id;
-    const { password } = req.body; 
+    const { password } = req.body;
     const db = req.app.locals.db;
-    
+
     if (!password) {
         return res.status(400).json({ success: false, msg: "Bad parameter" });
     }
-    
+
     try {
         const [userRows] = await db.query("SELECT password FROM `User` WHERE id = ?", [userId]);
-        
+
         if (userRows.length === 0) {
             return res.status(404).json({ success: false, msg: "Not found" });
         }
-        
+
         const user = userRows[0];
         const samePass = await bcrypt.compare(password, user.password);
-        
+
         if (!samePass) {
             return res.status(401).json({ success: false, msg: "Invalid Credentials" });
         }
-        
+
         // Suppression
         await db.query("DELETE FROM `User` WHERE id = ?", [userId]);
-        
-        res.status(200).json({ 
-            success: true, 
-            msg: `Successfully deleted record number: ${userId}` 
+
+        res.status(200).json({
+            success: true,
+            msg: `Successfully deleted record number: ${userId}`
         });
     } catch (err) {
         console.error(err);
@@ -83,39 +83,39 @@ router.delete("/users/:id", authenticateToken, async (req, res) => {
 
 router.put("/users/:id", authenticateToken, async (req, res) => {
     const userId = req.params.id;
-    const { name, firstname, email, password } = req.body; 
+    const { name, firstname, email, password } = req.body;
     const db = req.app.locals.db;
-    
+
     if (!password || !name || !firstname || !email) {
         return res.status(400).json({ success: false, msg: "Bad parameter" });
     }
-    
+
     try {
         const [userRows] = await db.query("SELECT password FROM `User` WHERE id = ?", [userId]);
-        
+
         if (userRows.length === 0) {
             return res.status(404).json({ success: false, msg: "Not found" });
         }
-        
+
         const user = userRows[0];
         const samePass = await bcrypt.compare(password, user.password);
-        
+
         if (!samePass) {
             return res.status(401).json({ success: false, msg: "Invalid Credentials" });
         }
-        
+
         const [emailCheck] = await db.query(
             "SELECT id FROM `User` WHERE email = ? AND id != ?",
             [email, userId]
         );
-        
+
         if (emailCheck.length > 0) {
             return res.status(409).json({ success: false, msg: "Account already exists" });
         }
-        
+
         // Edit
         await db.query("UPDATE `User` SET name=?, firstname=?, email=? WHERE id=?", [name, firstname, email, userId]);
-        
+
         res.status(200).json({
             success: true,
             msg: "User updated successfully"
@@ -129,7 +129,10 @@ router.put("/users/:id", authenticateToken, async (req, res) => {
 router.get("/user", authenticateToken, async (req, res) => {
     const db = req.app.locals.db;
     try {
-        const [rows] = await db.query("SELECT id, name, firstname, email, password created_at FROM `User`");
+        const [rows] = await db.query(
+            "SELECT id, name, firstname, email, password, created_at FROM `User`"
+        );
+
 
         const users = rows.map(row => ({
             id: row.id,

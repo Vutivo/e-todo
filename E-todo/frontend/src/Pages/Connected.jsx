@@ -123,7 +123,7 @@ const Connected = () => {
                                 onClick={toggleOpen}
                             />
                         </button>
-                        {open && <Display />}
+                        {open && <Display  id={user?.id}/>}
                     </div>
                 </div>
             </header>

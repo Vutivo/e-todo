@@ -17,7 +17,7 @@ function App() {
         <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/user/todos" element={<Connected />} />
-        <Route path="/user" element={<InfoUser />} />
+        <Route path="/users/:id" element={<InfoUser />} />
         <Route path="/todos/:id" element={<TodoInfo />} />
         <Route path="/todo/all" element={< AllTodos/>} />
     

@@ -3,27 +3,40 @@ const router = express.Router();
 const { authenticateToken } = require("./../../middleware/auth.js");
 const bcrypt = require("bcryptjs");
 
-router.get("/user", authenticateToken, async (req, res) => {
-    const id = req.user.id;
+router.get("/users/:id", authenticateToken, async (req, res) => {
+    const value = req.params.id; 
     const db = req.app.locals.db;
-    console.log("Fetching info for user ID:", id);
-    
+
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+    // Determine query
+    const query = isEmail
+        ? "SELECT id FROM `User` WHERE email = ?"
+        : "SELECT id FROM `User` WHERE id = ?";
+
     try {
-        //Keep user
-        const [userRows] = await db.query("SELECT name, firstname, email, created_at FROM User WHERE id = ?", [id]);
-        console.log("User rows:", userRows);
-        
+        // Check if user exists
+        const [rows] = await db.query(query, [value]);
+
+        if (rows.length === 0) {
+            return res.status(404).json({ msg: "Not found" });
+        }
+
+        const userId = rows[0].id;
+
+        // Fetch full user data
+        const [userRows] = await db.query(
+            "SELECT name, firstname, email, created_at FROM User WHERE id = ?",
+            [userId]
+        );
+
         if (userRows.length === 0) {
             return res.status(404).json({ msg: "Not found" });
         }
-        
-        // take data to user
-        const user = userRows[0];
-        console.log("User data:", user);
-        
+
         res.status(200).json({
-            user,       
-            token: id      
+            user: userRows[0],
+            token: userId
         });
     } catch (err) {
         console.error(err);
@@ -31,8 +44,9 @@ router.get("/user", authenticateToken, async (req, res) => {
     }
 });
 
-router.delete("/user", authenticateToken, async (req, res) => {
-    const userId = req.user.id;
+
+router.delete("/users/:id", authenticateToken, async (req, res) => {
+    const userId = req.params.id;
     const { password } = req.body; 
     const db = req.app.locals.db;
     
@@ -67,8 +81,8 @@ router.delete("/user", authenticateToken, async (req, res) => {
     }
 });
 
-router.put("/user", authenticateToken, async (req, res) => {
-    const userId = req.user.id;
+router.put("/users/:id", authenticateToken, async (req, res) => {
+    const userId = req.params.id;
     const { name, firstname, email, password } = req.body; 
     const db = req.app.locals.db;
     

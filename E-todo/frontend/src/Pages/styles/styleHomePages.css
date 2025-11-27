@@ -1,0 +1,190 @@
+*, body, header{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: url('../Assets/background/snow.jpg')no-repeat center center;
+    /* va changer plus tard */
+    background-size: cover;
+    background-attachment: fixed;
+    color: white;
+}
+header {
+    background-color: #2b212b71;
+    height: 10vh;
+}
+.Homebody{
+    --angle: 45deg; 
+    background: linear-gradient(var(--angle),
+     oklab(35.9% 0.051 -0.164),
+     oklab(46.6% 0.059 -0.184),
+     oklab(61.3% 0.057 -0.163),
+     oklab(76.9% 0.041 -0.101),
+     oklab(90.8% 0.017 -0.04));
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+.HomeBox{
+    height: 40vh;
+    display: flex;
+    justify-content: space-around;
+}
+.HomeOnBox{
+    margin-top: 10vh;
+    display: flex;
+    background-color: #2b212b71;
+    justify-content: center;
+    text-align: center;
+    width: 30vw;
+    opacity: 0.7;
+    border-radius: 15px;
+}
+.HomeBoxParams{
+    display: flex;
+    gap: 10px;
+    height: 10vh;
+    justify-content: flex-end;
+    align-items: center;
+}
+.HomeanimateBtn{
+    animation: ToDown 3s forwards; 
+}
+.HomeButton {
+    border-radius: 15px;
+    --angle: 45deg; 
+    --angle: 45deg; 
+    background: linear-gradient(var(--angle), oklab(97.5% -0.006 -0.011), oklab(87.5% -0.045 -0.022), oklab(81.4% -0.058 -0.057));
+    border: none;
+    height: 5vh;
+    width: 16vw;
+}
+.loginRegister {
+    --angle: 45deg; 
+    background: linear-gradient(var(--angle),
+     oklab(35.9% 0.051 -0.164),
+     oklab(46.6% 0.059 -0.184),
+     oklab(61.3% 0.057 -0.163),
+     oklab(76.9% 0.041 -0.101),
+     oklab(90.8% 0.017 -0.04));
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.containerSignReg {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: #fff;
+    padding-bottom: 20px;
+    width: 40%;
+    border-radius: 90px;
+    max-height: 95vh;
+}
+.headerSignReg {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-top: 15px;
+}
+.textHomePages {
+    color: #3c009d;
+    font-size: 35px;
+    font-weight: 600;
+}
+.underline {
+    width: 60px;
+    height: 5px;
+    background: blue;
+    border-radius: 15px;
+}
+.inputs {
+    display: flex;
+    margin-top: 30px;
+    flex-direction: column;
+    gap: 18px;
+}
+.input {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    background: #eaeaea;
+    width: 80%;
+    height: 8vh;
+    border-radius: 5px;
+}
+.input img {
+    margin: 0px 25px;
+    width: 24px;
+    height: 24px;
+}
+.input input {
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+}
+.submit-containerSign {
+    display: flex;
+    margin: auto;
+    gap: 30px;
+}
+.alert-messageSign {
+    font-size: 14px;
+    color: red;
+    margin-left: 60px;
+    min-height: 20px;
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+@keyframes ToDown {
+    0% {
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(15px)
+    }
+    
+    100% {
+        transform: translate(0);
+    }
+}
+@keyframes Scale {
+    0%{
+        transform : scale(1);
+    }
+    50%{
+        transform : scale(0.95);
+    }
+    100%{
+        transform : scale(1);
+    }
+}
+@keyframes ScaleUser {
+    0%{
+        transform : scale(1);
+    }
+    50%{
+        transform : scale(0.90);
+    }
+    100%{
+        transform : scale(1);
+    }
+}
+@media screen and (max-width: 780px) {
+    .containerSignReg{
+        width: 70%;
+    }
+    body{
+        font-size: 13px;
+    }
+}

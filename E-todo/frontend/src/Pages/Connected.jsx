@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import './styles/Connected.css';
+import "./styles/styleConnected.css";
 import imgParams from './Assets/imgParametres.png';
 import Display from './componentsConnected/Display';
 
@@ -92,20 +92,21 @@ const Connected = () => {
 
         return filtered.length ? (
             filtered.map((task) =>
-                <div key={task.id}>
+                <div className="TodosCardConnected" key={task.id}>
                     <p>{task.title}</p>
-                    <button onClick={() => handleClick(task.id)}>View</button>
+                    <button className="buttonConnected" onClick={() => handleClick(task.id)}>View</button>
                 </div>
             )
         ) : (
-            <p>No tasks yet</p>
+            <p className="TodosCardConnected">No tasks yet</p>
         );
     };
 
     return (
         <>
             <header>
-                <div className='flex'>
+                <div className='UserTodosHeader'>
+                    <button className="buttonConnectedHeader">View todo of everyone</button>
                     <div>
                         {user ? (
                             <p>Welcome {user.name} {user.firstname || ""}</p>
@@ -129,11 +130,9 @@ const Connected = () => {
             </header>
 
             <main>
-                <button onClick={handleAllTodos}>View todo of everyone</button>
-
-                <div className='container1'>
+                <div className='containerConnected'>
                     {['not started', 'todo', 'in progress', 'done'].map((status) => (
-                        <div className='GotInfo' key={status}>
+                        <div className='containerTodosConnected' key={status}>
                             <div>{status}</div>
                             <br />
 
@@ -143,7 +142,7 @@ const Connected = () => {
                                 <p>Title</p>
                                 <input
                                     type="text"
-                                    className="title"
+                                    className="sizeInputTitle"
                                     placeholder="Title"
                                     required
                                     value={inputValues[status].title}
@@ -157,7 +156,7 @@ const Connected = () => {
 
                                 <p>Description</p>
                                 <textarea
-                                    className="description"
+                                    className="descriptionTextarea"
                                     placeholder="Description"
                                     required
                                     value={inputValues[status].description}
@@ -183,7 +182,7 @@ const Connected = () => {
                                 />
 
                                 <p>{error}</p>
-                                <button type="submit">Send</button>
+                                <button className="buttonConnected" type="submit">Send</button>
                             </form>
                         </div>
                     ))}

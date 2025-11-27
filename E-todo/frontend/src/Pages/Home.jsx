@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./styles/Home.css";
+import "./styles/styleHomePages.css";
 import ButtonAnim from "./componentHome/ButtonAnim";
 
 const Home = () => {
@@ -13,17 +13,17 @@ const Home = () => {
     };
     
     return (
-        <div>
+        <div className="Homebody">
             <header>
                 <div>
                     <ButtonAnim ButtonRegister={goToRegister} ButtonLogin={goToLogin} />
                 </div>
             </header>
             <main>
-                <div className="box">
-                    <div className="onBox">create your own todo-list</div>
-                    <div className="onBox">gain time</div>
-                    <div className="onBox">don't forget essencial things</div>
+                <div className="HomeBox">
+                    <div className="HomeOnBox">create your own todo-list</div>
+                    <div className="HomeOnBox">gain time</div>
+                    <div className="HomeOnBox">don't forget essencial things</div>
                 </div>
             </main>
             <footer>

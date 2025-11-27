@@ -63,6 +63,19 @@ button.settings:hover img{
     background-color: red;
     
 }
+.table{
+    min-width: 80vw;
+    min-height: 50vh;
+    margin: auto;
+    text-align: center;
+    border: solid black;
+}
+
+.td{
+    --angle: 45deg; 
+    background: linear-gradient(var(--angle), oklab(15.9% 0.016 -0.048), oklab(22.6% 0.003 -0.043), oklab(28.5% -0.012 -0.058), oklab(34.4% -0.018 -0.065), oklab(46.7% -0.019 -0.064));
+}
+
 footer {
     position: fixed;
     bottom: 0;

@@ -1,4 +1,4 @@
-import "../styles/Home.css";
+import "../styles/styleHomePages.css";
 import { useState } from "react";
 export default function ButtonAnim({ ButtonRegister, ButtonLogin}){
 
@@ -18,16 +18,16 @@ export default function ButtonAnim({ ButtonRegister, ButtonLogin}){
     }
     //affichage (render)
     return (
-        <div className="boxParams">
+        <div className="HomeBoxParams">
             <button
-                className={`Params submit ${animRegister ? "animate" : ""}`}
+                className={`HomeButton ${animRegister ? "HomeanimateBtn" : ""}`}
                 onMouseEnter={triggerAnimRegister}
                 onClick= {ButtonRegister}
             >
                 Register
             </button>
             <button
-                className={`Params submit ${animLogin ? "animate" : ""}`}
+                className={`HomeButton ${animLogin ? "HomeanimateBtn" : ""}`}
                 onMouseEnter={triggerAnimLogin}
                 onClick= {ButtonLogin}
             >

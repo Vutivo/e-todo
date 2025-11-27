@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import '../styles/InfoUser.css';
+import "../styles/styleConnected.css";
 
 export default function InfoUser() {
     const [user, setUser] = useState(null);
@@ -131,8 +131,8 @@ export default function InfoUser() {
 
     return (
         <>
-            <header>
-                <div className="flex">
+            <header className="PersonalUserHeader">
+                <div className="flexPersonalUser">
                     <div>
                         <button onClick={backToConnected} className="button">
                             come back to your todo list
@@ -144,7 +144,7 @@ export default function InfoUser() {
                 </div>
             </header>
 
-            <main className="main">
+            <main className="PersonalUserMain">
                 <table className="table">
                     <thead>
                         <tr>
@@ -199,7 +199,7 @@ export default function InfoUser() {
                 </table>
             </main>
 
-            <div className="flex">
+            <div className="flexPersonalUser">
                 {!isEditing ? (
                     <button onClick={() => setIsEditing(true)} className="button">
                         update informations

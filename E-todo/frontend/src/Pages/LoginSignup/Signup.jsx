@@ -1,6 +1,6 @@
 import { data, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import './LoginSingup.css'
+import "../styles/styleHomePages.css";
 import email_img from '../Assets/email.png'
 import person_img from '../Assets/person.png'
 import password_img from '../Assets/password.png'
@@ -50,23 +50,23 @@ const Singup = () => {
 
 
     return (
-        <div className='body'>
-            <div className='container'>
-                <div className="header">
+        <div className='loginRegister'>
+            <div className='containerSignReg'>
+                <div className="headerSignReg">
                     <a href="/">
                         &lt;&lt; Home page
                     </a>
-                    <div className="text">Sign up</div>
+                    <div className="textHomePages">Sign up</div>
                     <div className="underline"></div>
                 </div>
                 <div className="inputs">
                     <div className="input">
                         <img src={person_img} alt="My name" />
-                        <input type="text" placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
+                        <input type="textHomePages" placeholder='Name' value={name} onChange={(e) => setName(e.target.value)} />
                     </div>
                     <div className="input">
                         <img src={person_img} alt="My name" />
-                        <input type="text" placeholder='Firstname' value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+                        <input type="textHomePages" placeholder='Firstname' value={firstname} onChange={(e) => setFirstname(e.target.value)}/>
                     </div>
                     <div className="input">
                         <img src={email_img} alt="My e-mail" />
@@ -76,10 +76,10 @@ const Singup = () => {
                         <img src={password_img} alt="My password" />
                         <input type="password" placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
-                    <p className="alert-message" >{error}</p>
-                    <div className="submit-container">
-                        <button className="submit" onClick={handleClick}>Sign Up</button>
-                        <button className="submit" onClick={goToLogin}>Login</button>
+                    <p className="alert-messageSign" >{error}</p>
+                    <div className="submit-containerSign">
+                        <button className="HomeButton" onClick={handleClick}>Sign Up</button>
+                        <button className="HomeButton" onClick={goToLogin}>Login</button>
                     </div>
                 </div>
             </div>

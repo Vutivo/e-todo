@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import '../styles/Connected.css';
+import '../styles/styleConnected.css';
 
 
 export default function Display({ id }) {

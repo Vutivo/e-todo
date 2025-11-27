@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import './LoginSingup.css'
-import email_img from '../Assets/email.png'
-import password_img from '../Assets/password.png'
+import "../styles/styleHomePages.css";
+import email_img from '../Assets/email.png';
+import password_img from '../Assets/password.png';
 
 
 const Login = () => {
@@ -47,13 +47,13 @@ const Login = () => {
     };
 
     return (
-        <div className='body'>
-            <div className='container'>
-                <div className="header">
+        <div className='loginRegister'>
+            <div className='containerSignReg'>
+                <div className="containerSignReg">
                     <a href="/">
                         &lt;&lt; Home page
                     </a>
-                    <div className="text">Login</div>
+                    <div className="textHomePages">Login</div>
                     <div className="underline"></div>
                 </div>
                 <div className="inputs">
@@ -65,10 +65,10 @@ const Login = () => {
                         <img src={password_img} alt="My password" />
                         <input type="password" placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
                     </div>
-                    <p className="alert-message" >{error}</p>
-                    <div className="submit-container">
-                        <button className="submit" onClick={goToRegister}>Sign Up</button>
-                        <button className="submit" onClick={handleClick}>Login</button>
+                    <p className="alert-messageSign" >{error}</p>
+                    <div className="submit-containerSign">
+                        <button className="HomeButton" onClick={goToRegister}>Sign Up</button>
+                        <button className="HomeButton" onClick={handleClick}>Login</button>
                     </div>
                 </div>
             </div>

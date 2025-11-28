@@ -14,7 +14,6 @@ router.get("/todos", authenticateToken, async (req, res) => {
 
         if (userIds.length === 0) {
             return res.status(200).json({
-                tokensuccess: true,
                 tasks: []
             });
         }
@@ -32,7 +31,6 @@ router.get("/todos", authenticateToken, async (req, res) => {
         }));
 
         res.status(200).json({
-            tokensuccess: true,
             tasks
         });
 
@@ -63,7 +61,7 @@ router.get("/user/todos", authenticateToken, async (req, res) => {
             user,
             tasks,
             id: user.id,
-            tokensuccess: true 
+            
         });
 
     } catch (err) {
@@ -93,7 +91,6 @@ router.post("/todos", authenticateToken, async (req, res) => {
         );
 
         res.status(200).json({
-            tokensuccess: true,
             ...rows[0]
         });
 
@@ -122,7 +119,6 @@ router.get("/todos/:id", authenticateToken, async (req, res) => {
         let description = todo.description;
 
         res.status(200).json({
-            tokensuccess: true,
             title: todo.title,
             description: description,
             status: todo.status,
@@ -157,7 +153,6 @@ router.delete("/todos/:id", authenticateToken, async (req, res) => {
 
         res.status(200).json({ 
             msg: `Successfully deleted record number: ${todoId}`, 
-            tokensuccess: true 
         });
 
     } catch (err) {
@@ -188,7 +183,6 @@ router.put("/todos/:id", authenticateToken, async (req, res) => {
 
         res.status(200).json({ 
             msg: "Todo updated successfully", 
-            tokensuccess: true 
         });
 
     } catch (err) {

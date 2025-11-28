@@ -144,7 +144,6 @@ router.get("/user", authenticateToken, async (req, res) => {
         }));
         
         res.status(200).json({
-            tokensuccess: true,
             users
         });
 

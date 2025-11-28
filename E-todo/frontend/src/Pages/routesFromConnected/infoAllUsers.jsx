@@ -41,38 +41,44 @@ const InfoAllUsers = () => {
     }, []);
 
 
-    return <div>
-
-        <h2>All Users</h2>
-        <button className="button" onClick={handleBack}>Back to todos page</button>
-        <div className="users-list">
-            <table border={1} className="table">
-                <thead>
-                    <tr>
-                        <td className="td">Id</td>
-                        <td className="td">name</td>
-                        <td className="td">firstname</td>
-                        <td className="td"> email</td>
-                        <td className="td">acount created date</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {userData.map((user) => (
-                        <tr key={user.id}>
-                            <td className="td">{user.id}</td>
-                            <td className="td">{user.name}</td>
-                            <td className="td">{user.firstname}</td>
-                            <td className="td">{user.email}</td>
-                            <td className="td">{user.created_at.split("T")[0]}</td>
+    return <>
+        <header>
+            <div className="UserTodosHeader">
+                <h2>All Users</h2>
+                <button className="button" onClick={handleBack}>Back to todos page</button>
+            </div>
+        </header>
+        <main className="main">
+            <div className="users-list">
+                <table border={1} className="table">
+                    <thead>
+                        <tr>
+                            <td className="td">Id</td>
+                            <td className="td">name</td>
+                            <td className="td">firstname</td>
+                            <td className="td">email</td>
+                            <td className="td">account creation date</td>
                         </tr>
-                    ))}
-                </tbody>
+                    </thead>
+                    <tbody>
+                        {userData.map((user) => (
+                            <tr key={user.id}>
+                                <td className="td">{user.id}</td>
+                                <td className="td">{user.name}</td>
+                                <td className="td">{user.firstname}</td>
+                                <td className="td">{user.email}</td>
+                                <td className="td">{user.created_at.split("T")[0]}</td>
+                            </tr>
+                        ))}
+                    </tbody>
 
-            </table>
+                </table>
+            </div >
+        </main>
 
-        </div>
 
-    </div>
+
+    </>
 };
 
 export default InfoAllUsers;

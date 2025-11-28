@@ -4,7 +4,6 @@ import '../styles/Connected.css';
 
 
 const AllTodos = () => {
-    const [open, setOpen] = useState(false);
     const [tasks, setTasks] = useState([]);
     const navigate = useNavigate();
 

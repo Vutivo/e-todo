@@ -19,6 +19,9 @@
     oklab(34.4% -0.018 -0.065),
     oklab(46.7% -0.019 -0.064));
 }
+.sizeOfText{
+    width: 70%;
+}
 .button{
     min-height: 2vh;
     padding: 5px;

@@ -43,7 +43,8 @@ const AllTodos = () => {
         const filtered = tasks.filter(task => task?.status === status);
         return filtered.length ? (
             filtered.map(task => (
-                <div key={task.id}>
+                <div 
+                    key={task.id}>
                     <br />
                     <p>Title : {task.title}</p>
                     <p>By : {task.name} {task.firstname}</p>
@@ -58,15 +59,21 @@ const AllTodos = () => {
         <>
             <header>
                 <div className='UserTodosHeader'>
-                    <button className="button" onClick={handleBack}>Back to todos</button>
+                    <button className="button" onClick={handleBack}>Back to your todos list</button>
                 </div>
             </header>
 
             <main>
-                <div className="containerConnected">
-                    <div className='containerTodosConnected'>
+                <div className="flexAllTodo">
+                    <div className='containerAllTodo'>
                         {['not started', 'todo', 'in progress', 'done'].map(status => (
-                            <div className='GotInfo' key={status}>
+                            <div
+                                className={
+                                    'placeForAllTodo ' +
+                                    ((status === 'not started' ? 'itemForAllTodo1' : '')||(status === 'todo' ? 'itemForAllTodo2' : ''))
+                                }
+                                key={status}
+                            >
                                 <h3>{status}</h3>
                                 {renderTasks(status)}
                             </div>

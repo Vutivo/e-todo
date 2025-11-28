@@ -118,7 +118,7 @@ export default function TodoInfo() {
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </div>
-                    <div className="placeForTodo item2">
+                    <div className="placeForTodo itemForTodo2">
                         <p>Description :</p>
                         <textarea
                             className="descriptionTextarea"

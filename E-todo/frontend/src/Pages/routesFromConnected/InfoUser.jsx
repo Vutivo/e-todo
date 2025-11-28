@@ -162,6 +162,7 @@ export default function InfoUser() {
                             <td className="td">
                                 {isEditing ? (
                                     <input
+                                        className="sizeOfText"
                                         name="name"
                                         value={formData.name}
                                         onChange={handleChange}
@@ -174,6 +175,7 @@ export default function InfoUser() {
                             <td className="td">
                                 {isEditing ? (
                                     <input
+                                        className="sizeOfText"
                                         name="firstname"
                                         value={formData.firstname}
                                         onChange={handleChange}
@@ -186,6 +188,7 @@ export default function InfoUser() {
                             <td className="td">
                                 {isEditing ? (
                                     <input
+                                        className="sizeOfText"
                                         type="email"
                                         name="email"
                                         value={formData.email}

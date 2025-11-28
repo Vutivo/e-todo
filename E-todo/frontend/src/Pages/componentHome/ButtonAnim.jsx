@@ -19,6 +19,7 @@ export default function ButtonAnim({ ButtonRegister, ButtonLogin}){
     //affichage (render)
     return (
         <div className="HomeBoxParams">
+            <p>Welcome to the Etodo website by Durian's workteam</p>
             <button
                 className={`HomeButton ${animRegister ? "HomeanimateBtn" : ""}`}
                 onMouseEnter={triggerAnimRegister}

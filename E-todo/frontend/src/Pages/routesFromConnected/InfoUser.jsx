@@ -71,9 +71,15 @@ export default function InfoUser() {
             const data = await res.json();
 
             if (data.success) {
-                alert("Your account is delete");
-                localStorage.removeItem("token");
-                navigate("/login");
+                if (data.id_user_deleted !== data.id_user_requesting) {
+                    alert(`You have deleted user account with id ${data.id_user_deleted}`);
+                    return;
+                } else {
+                    alert("Your account is delete");
+                    localStorage.removeItem("token");
+                    navigate("/login");
+                }
+
             } else {
                 alert(data.message || "Incorrect password.");
             }

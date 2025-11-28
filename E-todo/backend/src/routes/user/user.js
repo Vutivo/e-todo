@@ -47,6 +47,7 @@ router.get("/users/:id", authenticateToken, async (req, res) => {
 
 router.delete("/users/:id", authenticateToken, async (req, res) => {
     const userId = req.params.id;
+    const id = req.user.id;
     const { password } = req.body;
     const db = req.app.locals.db;
 
@@ -73,6 +74,8 @@ router.delete("/users/:id", authenticateToken, async (req, res) => {
 
         res.status(200).json({
             success: true,
+            id_deleted: userId,
+            id_requester: id,
             msg: `Successfully deleted record number: ${userId}`
         });
     } catch (err) {

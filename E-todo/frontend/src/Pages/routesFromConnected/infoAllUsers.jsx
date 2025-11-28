@@ -17,13 +17,16 @@ const InfoAllUsers = () => {
                     },
                 });
 
+                const data = await res.json();
+
                 if (!res.ok) {
-                    const errorData = await res.json();
-                    console.error("Error fetching user:", res.status, errorData);
+                    if (data.tokensuccess === false) {
+                        console.log("Token invalid, redirecting to login.");
+                        navigate("/login");
+                        return;
+                    }
                     throw new Error(`HTTP Error: ${res.status}`);
                 }
-
-                const data = await res.json();
 
                 setUserData(Array.isArray(data.users) ? data.users : []);
                 console.log("Fetched todos:", data.users);

@@ -69,10 +69,12 @@ export default function InfoUser() {
             });
 
             const data = await res.json();
+            console.log(data);
 
             if (data.success) {
-                if (data.id_user_deleted !== data.id_user_requesting) {
-                    alert(`You have deleted user account with id ${data.id_user_deleted}`);
+                if (data.id_deleted !== data.id_requester) {
+                    alert(`You have deleted user account with id ${data.id_deleted}`);
+                    navigate(`/users/${data.id_requester}`);
                     return;
                 } else {
                     alert("Your account is delete");

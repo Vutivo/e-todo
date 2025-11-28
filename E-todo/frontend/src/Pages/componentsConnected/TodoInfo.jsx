@@ -91,7 +91,7 @@ export default function TodoInfo() {
                 setCreatedAt(data.created_at);
 
             } catch (err) {
-                console.error("Erreur :", err);
+                console.error("Error :", err);
                 navigate("/user/todos");
             }
         };

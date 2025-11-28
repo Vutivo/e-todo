@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/Connected.css';
-import imgParams from '../Assets/imgParametres.png';
-import Display from '../componentsConnected/Display';
+
 
 const AllTodos = () => {
     const [open, setOpen] = useState(false);
     const [tasks, setTasks] = useState([]);
     const navigate = useNavigate();
-
-    const toggleOpen = () => setOpen(!open);
 
     const handleBack = () => {
         navigate("/user/todos");

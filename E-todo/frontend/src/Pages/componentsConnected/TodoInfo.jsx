@@ -29,11 +29,16 @@ export default function TodoInfo() {
                 })
             });
 
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-
             const data = await res.json();
+
+            if (!res.ok) {
+                if (data.tokensuccess === false) {
+                    console.log("Token invalid, redirecting to login.");
+                    navigate("/login");
+                    return;
+                }
+                throw new Error(`HTTP Error: ${res.status}`);
+            }
             console.log("Updated todo:", data);
             navigate("/user/todos");
         } catch (err) {

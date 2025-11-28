@@ -4,6 +4,7 @@ import ButtonAnim from "./componentHome/ButtonAnim";
 import ImageOfAllUserTodos from "./Assets/ImagesHomePage/ImageOfAllUserTodos.png";
 import ImageOfCreatingTodo from "./Assets/ImagesHomePage/ImageOfCreatingTodo.png";
 import ImageOfDurian from "./Assets/ImagesHomePage/ImageOfDurian.png"
+
 const Home = () => {
     const navigate = useNavigate(); // On récupère la fonction de navigation
 
@@ -23,11 +24,11 @@ const Home = () => {
             </header>
             <main>
                 <div className="HomeBox">
-                    <img className="HomeOnBox" src={ImageOfCreatingTodo} alt="Image of the website" />
-                    <img className="HomeOnBox" src={ImageOfDurian} alt="Image of durian team" />
+                    <img className="HomeOnBox" src={ImageOfCreatingTodo} alt="website" />
+                    <img className="HomeOnBox" src={ImageOfDurian} alt="durian team" />
                 </div>
                 <div className="HomeBox">
-                    <img className="HomeOnBox2" src={ImageOfAllUserTodos} alt="Image of the website" />
+                    <img className="HomeOnBox2" src={ImageOfAllUserTodos} alt="website" />
                 </div>
             </main>
             <footer>

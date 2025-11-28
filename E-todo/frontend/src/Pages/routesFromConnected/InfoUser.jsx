@@ -19,35 +19,39 @@ export default function InfoUser() {
     };
 
     useEffect(() => {
-    const fetchInfo = async () => {
-        try {
-            const res = await fetch(`http://localhost:3000/users/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            });
+        const fetchInfo = async () => {
+            try {
+                const res = await fetch(`http://localhost:3000/users/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                });
+                const data = await res.json();
 
-            if (!res.ok) {
-                const errorData = await res.json();
-                console.error("Error fetching user:", res.status, errorData);
-                throw new Error(`HTTP Error: ${res.status}`);
+                if (!res.ok) {
+                    if (data.tokensuccess === false) {
+                        console.log("Token invalid, redirecting to login.");
+                        navigate("/login");
+                        return;
+                    }
+                    throw new Error(`HTTP Error: ${res.status}`);
+                }
+
+
+                setUser(data.user);
+                setFormData({
+                    name: data.user.name,
+                    firstname: data.user.firstname,
+                    email: data.user.email,
+                });
+            } catch (err) {
+                console.error(err);
+                navigate("/user/todos");
             }
+        };
 
-            const data = await res.json();
-
-            setUser(data.user);
-            setFormData({
-                name: data.user.name,
-                firstname: data.user.firstname,
-                email: data.user.email,
-            });
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    fetchInfo();
-}, [id, navigate]);
+        fetchInfo();
+    }, [id, navigate]);
 
 
     const deleteAccount = async () => {

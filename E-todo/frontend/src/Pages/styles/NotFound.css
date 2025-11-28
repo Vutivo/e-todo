@@ -8,3 +8,45 @@
     color: black;
     text-align: center;
 }
+.sizeOfDurian{
+    max-height: 20%;
+    animation: durian 5s linear infinite;
+}
+.sizeOfDurian2{
+    max-height: 20%;
+    animation: durian2 5s linear infinite;
+}
+@keyframes durian {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(50px);
+    }
+    50% {
+        transform: translateX(0);
+    }
+    75% {
+        transform: translateX(-50px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+@keyframes durian2 {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-50px);
+    }
+    50% {
+        transform: translateX(0);
+    }
+    75% {
+        transform: translateX(50px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}

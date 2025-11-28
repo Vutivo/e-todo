@@ -1,0 +1,69 @@
+.AreaForTodo{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    grid-template-columns: repeat(3, 30%);
+    grid-template-rows: repeat(2, 50%);
+    height: 80vh;
+    width: 100%;
+}
+.placeForTodo{
+    width: 60%;
+    height: 60%;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   --angle: 45deg; 
+    background: linear-gradient(var(--angle),
+    oklab(37.361% 0.05942 0.07061 / 0.71),
+    oklab(67.808% 0.05697 0.10933 / 0.533));
+    margin: 10px;
+    gap: 20px;
+}
+.areaForText{
+    width: 80% ;
+}
+.itemForTodo2{
+    grid-column: 1 / 3 ;
+    grid-row: 2 / 3 ;
+}
+.containerAllTodo{
+    width: 90%;
+    height: 90%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px 0;
+    padding: 0;
+}
+.placeForAllTodo{
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+   --angle: 45deg; 
+    background: linear-gradient(var(--angle),
+    oklab(37.361% 0.05942 0.07061 / 0.71),
+    oklab(67.808% 0.05697 0.10933 / 0.533));
+    margin: 10px;
+    gap: 20px;
+}
+.flexAllTodo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    margin-top: 20px;
+}
+.itemForAllTodo1{
+    grid-column: 1 / -1;
+    grid-row: 1 / 2 ;
+}
+.itemForAllTodo2{
+    grid-column: 1 / 2;
+    grid-row: 2 / 4 ;
+}

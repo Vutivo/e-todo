@@ -34,11 +34,16 @@ export default function TodoInfo() {
                 })
             });
 
-            if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-
             const data = await res.json();
+
+            if (!res.ok) {
+                if (data.tokensuccess === false) {
+                    console.log("Token invalid, redirecting to login.");
+                    navigate("/login");
+                    return;
+                }
+                throw new Error(`HTTP Error: ${res.status}`);
+            }
             console.log("Updated todo:", data);
             navigate("/user/todos");
         } catch (err) {
@@ -91,7 +96,7 @@ export default function TodoInfo() {
                 setCreatedAt(data.created_at);
 
             } catch (err) {
-                console.error("Erreur :", err);
+                console.error("Error :", err);
                 navigate("/user/todos");
             }
         };

@@ -73,15 +73,25 @@ const Connected = () => {
                         "Authorization": `Bearer ${localStorage.getItem("token")}`
                     }
                 });
-
-                if (!res.ok) throw new Error(`Erreur HTTP : ${res.status}`);
-
                 const data = await res.json();
+
+                if (!res.ok){
+                    if (data.tokensuccess === false){
+                        console.log("Token invalid, redirecting to login.");
+                        navigate("/login");
+                        return;
+                    }
+                    throw new Error(`HTTP Error: ${res.status}`);
+                } 
+
+            
+                
                 setUser(data.user);
                 setTasks(data.tasks);
+
             } catch (err) {
                 console.error("Erreur :", err);
-                navigate("/login");
+                
             }
         };
         fetchUser();

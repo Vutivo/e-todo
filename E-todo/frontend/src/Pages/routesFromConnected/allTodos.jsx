@@ -24,9 +24,17 @@ const AllTodos = () => {
                     }
                 });
 
-                if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
-
                 const data = await res.json();
+
+                if (!res.ok) {
+                    if (data.tokensuccess === false) {
+                        console.log("Token invalid, redirecting to login.");
+                        navigate("/login");
+                        return;
+                    }
+                    throw new Error(`HTTP Error: ${res.status}`);
+                }
+
 
                 // Make sure tasks is always an array
                 setTasks(Array.isArray(data.tasks) ? data.tasks : []);
@@ -34,7 +42,7 @@ const AllTodos = () => {
 
             } catch (err) {
                 console.error("Error fetching todos:", err);
-                setTasks([]); 
+                setTasks([]);
             }
         };
 

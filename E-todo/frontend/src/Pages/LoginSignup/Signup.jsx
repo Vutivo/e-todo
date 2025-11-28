@@ -18,6 +18,12 @@ const Singup = () => {
         navigate("/login");
     };
 
+     const keyDownHandler = (e) => {
+        if (e.key === 'Enter') {
+            handleClick();
+        }
+    };
+
     const handleClick = async () => {
         try {
             const response = await fetch('http://localhost:3000/register', {
@@ -74,7 +80,7 @@ const Singup = () => {
                     </div>
                     <div className="input">
                         <img src={password_img} alt="My password" />
-                        <input type="password" placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                        <input type="password" placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={keyDownHandler}/>
                     </div>
                     <p className="alert-messageSign" >{error}</p>
                     <div className="submit-containerSign">

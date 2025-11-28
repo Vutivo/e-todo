@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/styleConnected.css';
-import imgParams from '../Assets/imgParametres.png';
-import Display from '../componentsConnected/Display';
 
 const AllTodos = () => {
     const [open, setOpen] = useState(false);
@@ -34,7 +32,7 @@ const AllTodos = () => {
 
             } catch (err) {
                 console.error("Error fetching todos:", err);
-                setTasks([]); 
+                setTasks([]);
             }
         };
 
@@ -45,7 +43,7 @@ const AllTodos = () => {
         const filtered = tasks.filter(task => task?.status === status);
         return filtered.length ? (
             filtered.map(task => (
-                <div key={task.id} className="task-card">
+                <div key={task.id}>
                     <br />
                     <p>Title : {task.title}</p>
                     <p>By : {task.name} {task.firstname}</p>
@@ -59,23 +57,21 @@ const AllTodos = () => {
     return (
         <>
             <header>
-                <div className='flex'>
-                    <div>
-                        <p> View All ToDo </p>
-                    </div>
+                <div className='UserTodosHeader'>
+                    <button className="button" onClick={handleBack}>Back to todos</button>
                 </div>
             </header>
 
             <main>
-                <button onClick={handleBack}>Back to todos</button>
-
-                <div className='container1'>
-                    {['not started', 'todo', 'in progress', 'done'].map(status => (
-                        <div className='GotInfo' key={status}>
-                            <h3>{status}</h3>
-                            {renderTasks(status)}
-                        </div>
-                    ))}
+                <div className="containerConnected">
+                    <div className='containerTodosConnected'>
+                        {['not started', 'todo', 'in progress', 'done'].map(status => (
+                            <div className='GotInfo' key={status}>
+                                <h3>{status}</h3>
+                                {renderTasks(status)}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </main>
         </>

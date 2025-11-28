@@ -33,7 +33,6 @@
     display: flex;
     justify-content: space-evenly;
 }
-
 @keyframes ScaleUser {
     0%{
         transform : scale(1);

@@ -17,7 +17,6 @@ export default function Display({ id }) {
     return (
         <ul className='menuSettings'>
             <li onClick={InfoUser} className="styleMenu">account</li>
-            <li className="styleMenu">background</li>
             <li onClick={Home} className="styleMenu">Log out</li>
         </ul>
     );
